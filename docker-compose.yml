@@ -96,6 +96,23 @@ services:
     working_dir: /app
     command: ["fairai", "smoke", "--device", "cpu"]
 
+  gen:
+    profiles: ["gen"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cpu
+    environment: *fairai-env
+    volumes: *artifacts
+    working_dir: /app
+    command:
+      - fairai
+      - generate
+      - -c
+      - configs/data/generate.yaml
+      - --max-samples
+      - "64"
+    # Optional later: link ollama service for sentence evolution
+
   jupyter:
     profiles: ["dev"]
     build:

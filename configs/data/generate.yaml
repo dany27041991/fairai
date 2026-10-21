@@ -1,0 +1,13 @@
+name: generate_smoke
+generate:
+  sources: [crows]
+  expand_synonyms: false
+  filter_leakage: true
+  max_samples: 64
+  max_crows_rows: 40
+  max_synonym_samples: 2
+  seed: 42
+  out: generated/smoke_crows.jsonl
+  # Optional: pull already-processed AS-IS jsonl (never overwrite canonicals)
+  processed_jsonl: []
+  extra_jsonl: []

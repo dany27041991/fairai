@@ -14,8 +14,9 @@ Reproducible stereotype / bias classification (thesis FAIRAI). Clean Architectur
 | M3 ICAT + parity | **done** (~96.1 avg ICAT) |
 | M4 Compose + CI | **done** |
 | M7 Hardening (docs/lint) | **done** |
+| M5 Generation | **done** (`fairai generate`, CrowS + leakage filter) |
 | M8 Publish | **done** — [repo](https://github.com/dany27041991/fairai) · [v0.1.0](https://github.com/dany27041991/fairai/releases/tag/v0.1.0) |
-| M5 Generation / M6 LLM | later |
+| M6 LLM | later |
 
 ## Quick start
 
@@ -24,9 +25,9 @@ cd fairai && python -m venv .venv && source .venv/bin/activate
 pip install -e ".[torch,dev]"
 make import-asis ASIS_ROOT="../TESI MAGISTRALE"
 make smoke
-make train-smoke                                    # 1 epoch subset CPU
+make train-smoke
+fairai generate -c configs/data/generate.yaml       # regenerated subset only
 docker compose --profile ci run --rm smoke
-FAIRAI_DEVICE=cpu docker compose --profile eval run --rm eval
 ```
 
 ## Coding standards

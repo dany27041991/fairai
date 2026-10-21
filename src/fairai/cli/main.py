@@ -161,6 +161,37 @@ def eval_cmd(
         typer.echo(f"wrote {out}")
 
 
+@app.command("generate")
+def generate_cmd(
+    config: Path = typer.Option(Path("configs/data/generate.yaml"), "--config", "-c"),
+    sources: str | None = typer.Option(
+        None, "--sources", help="Comma list: crows,jsonl (default from YAML)."
+    ),
+    max_samples: int | None = typer.Option(None, "--max-samples"),
+    synonyms: bool = typer.Option(False, "--synonyms", help="Enable WordNet expansion."),
+    out: str | None = typer.Option(None, "--out", help="Relative path under datasets/."),
+    artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
+) -> None:
+    """Regenerate a schema-valid JSONL subset (does not overwrite canonical processed/)."""
+    import json
+
+    from fairai.application.generate_dataset import generate_dataset
+    from fairai.infrastructure.artifact_paths import ArtifactPaths
+
+    source_list = [s.strip() for s in sources.split(",") if s.strip()] if sources else None
+    result = generate_dataset(
+        config_path=config,
+        artifacts=ArtifactPaths.from_env(root=artifacts),
+        sources=source_list,
+        max_samples=max_samples,
+        expand_synonyms=synonyms or None,
+        out_name=out,
+    )
+    typer.echo(json.dumps(result.to_dict(), indent=2))
+    if result.n_schema_issues:
+        typer.secho(f"schema issues dropped: {result.n_schema_issues}", fg=typer.colors.YELLOW)
+
+
 @app.command("train")
 def train_cmd(
     config: Path = typer.Option(
