@@ -1,0 +1,9 @@
+name: smoke_cpu
+inherits: models/van_v2.yaml
+device: cpu
+train:
+  dataset: processed/van_minimal_24k.jsonl
+  max_samples: 256
+  epochs: 1
+  batch_size: 8
+  amp: false

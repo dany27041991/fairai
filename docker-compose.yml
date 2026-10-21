@@ -1,0 +1,111 @@
+name: fairai
+
+x-fairai-env: &fairai-env
+  FAIRAI_DATA_DIR: /app/artifacts/datasets
+  FAIRAI_MODEL_DIR: /app/artifacts/models
+  FAIRAI_RESULTS_DIR: /app/artifacts/results
+  FAIRAI_LOG_DIR: /app/artifacts/logs
+  HF_HOME: /app/artifacts/hf_cache
+  TRANSFORMERS_CACHE: /app/artifacts/hf_cache
+  PYTHONUNBUFFERED: "1"
+  FAIRAI_DEVICE: ${FAIRAI_DEVICE:-cpu}
+
+x-artifacts: &artifacts
+  - ./artifacts:/app/artifacts
+  - ./configs:/app/configs:ro
+
+services:
+  trainer:
+    profiles: ["train"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cuda
+    environment: *fairai-env
+    volumes: *artifacts
+    working_dir: /app
+    command: ["fairai", "--help"]
+    # Enable on hosts with NVIDIA Container Toolkit:
+    # gpus: all
+
+  eval:
+    profiles: ["eval"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cpu
+    environment: *fairai-env
+    volumes: *artifacts
+    working_dir: /app
+    command:
+      - fairai
+      - eval
+      - --checkpoint
+      - artifacts/models/van/v2/final_model.pt
+      - --config
+      - configs/models/van_v2.yaml
+      - --dataset
+      - artifacts/datasets/processed/van_minimal_24k.jsonl
+      - --max-samples
+      - "512"
+      - --device
+      - ${FAIRAI_DEVICE:-cpu}
+      - --out
+      - artifacts/results/metrics/compose_eval.json
+
+  eval-gpu:
+    profiles: ["eval-gpu"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cuda
+    environment:
+      <<: *fairai-env
+      FAIRAI_DEVICE: cuda
+    volumes: *artifacts
+    working_dir: /app
+    gpus: all
+    command:
+      - fairai
+      - eval
+      - --checkpoint
+      - artifacts/models/van/v2/final_model.pt
+      - --config
+      - configs/models/van_v2.yaml
+      - --dataset
+      - artifacts/datasets/processed/van_minimal_24k.jsonl
+      - --max-samples
+      - "512"
+      - --device
+      - cuda
+      - --out
+      - artifacts/results/metrics/compose_eval_gpu.json
+
+  smoke:
+    profiles: ["ci"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cpu
+    environment: *fairai-env
+    volumes: *artifacts
+    working_dir: /app
+    command: ["fairai", "smoke", "--device", "cpu"]
+
+  jupyter:
+    profiles: ["dev"]
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.cuda
+    ports: ["8888:8888"]
+    environment: *fairai-env
+    volumes:
+      - ./:/app
+      - ./artifacts:/app/artifacts
+    working_dir: /app
+    command:
+      [
+        "python",
+        "-m",
+        "jupyter",
+        "lab",
+        "--ip=0.0.0.0",
+        "--no-browser",
+        "--allow-root",
+      ]

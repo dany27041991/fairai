@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Artifacts (large / local) — keep README + manifest template
+artifacts/datasets/**
+artifacts/models/**
+artifacts/results/**
+artifacts/logs/**
+artifacts/hf_cache/**
+!artifacts/README.md
+!artifacts/**/.gitkeep
+
+# IDE / OS
+.DS_Store
+._*
+.idea/
+.vscode/
+*.swp
+
+# Notebooks
+.ipynb_checkpoints/
+**/* Copia*
+
+# Torch / Optuna noise
+*.pt
+*.pth
+*.db
+events.out.tfevents.*

@@ -1,0 +1,3 @@
+splits_dir: splits/stereoset
+gold_relpath: gold_scores.json
+report_bias_types: true

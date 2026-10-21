@@ -1,0 +1,146 @@
+{
+  "created_at": "2026-10-21T13:36:28.164475+00:00",
+  "source_root": "/home/danilo/Scrivania/ALTRO/TESI MAGISTRALE",
+  "files": [
+    {
+      "relpath": "models/van/v2/final_model.pt",
+      "sha256": "119ee89a936fa41b0ec98a0abfa6d29f4f45b74004230e46bcce5305404a23be",
+      "bytes": 203201512,
+      "role": "van_v2_final",
+      "required": true
+    },
+    {
+      "relpath": "models/van/v2/best_model.pt",
+      "sha256": "aeba3699d279bec7dfa101090e028c2264236eeab6acea9d8bf227e4e3621d51",
+      "bytes": 203201361,
+      "role": "van_v2_best",
+      "required": true
+    },
+    {
+      "relpath": "models/van/v2/best_trial_params.json",
+      "sha256": "87b4ecf1cccd6e634185b7c0a754685f6d40112f9b9ca8ddd73b39eb32bf2cad",
+      "bytes": 865,
+      "role": "van_v2_trial_params",
+      "required": true
+    },
+    {
+      "relpath": "models/van/v2/best_threshold_params.json",
+      "sha256": "96ab2ca6ad1643981a8ed1701a8061a2620365bb013ea2107e03fc9e50ad1539",
+      "bytes": 162,
+      "role": "van_v2_threshold_params",
+      "required": true
+    },
+    {
+      "relpath": "models/van/v1/final_model.pt",
+      "sha256": "c937241668c82ea766df078e662f6070f87e7986d07de3bc52469cf8e202393c",
+      "bytes": 381971232,
+      "role": "van_v1_final",
+      "required": false
+    },
+    {
+      "relpath": "models/van/v1/best_model.pt",
+      "sha256": "588c211f53a9220cf284e1970c7a5f7bb311e21f14da403c48f91c7bb1b4cd1d",
+      "bytes": 381971085,
+      "role": "van_v1_best",
+      "required": false
+    },
+    {
+      "relpath": "models/van/v1/best_trial_params.json",
+      "sha256": "121235dd3a4b92e6c381028dc040d4c37a9fc1763edc925d6e2d77aeaf3cd5de",
+      "bytes": 865,
+      "role": "van_v1_trial_params",
+      "required": false
+    },
+    {
+      "relpath": "models/van/v1/best_threshold_params.json",
+      "sha256": "7a5b7c4189a6ef894ee98d70761e25fc8b4f7fcf35964db54ee75c1a40212ae1",
+      "bytes": 162,
+      "role": "van_v1_threshold_params",
+      "required": false
+    },
+    {
+      "relpath": "datasets/processed/van_train_leakage_safe.jsonl",
+      "sha256": "312d04c898898f9fc059b99b2117baad5bbb9563e4bc52ba03d679642097fd0c",
+      "bytes": 5976680,
+      "role": "van_train_leakage_safe",
+      "required": true
+    },
+    {
+      "relpath": "datasets/processed/van_final.jsonl",
+      "sha256": "b9c61537a677238c31b6cc2626f0759c1b5d4e62b5d56cbb01716c8087d291b2",
+      "bytes": 6771954,
+      "role": "van_final",
+      "required": true
+    },
+    {
+      "relpath": "datasets/processed/van_minimal_24k.jsonl",
+      "sha256": "53610b106ec70110367e4104bc5d0655cedaf4ed1987d91eafb174467a06661b",
+      "bytes": 3247653,
+      "role": "van_minimal_24k",
+      "required": true
+    },
+    {
+      "relpath": "results/gold_scores.json",
+      "sha256": "54bf54b81664262585a75ffb95ec18177c68c8ae42567d5109bc7d66f72d72d9",
+      "bytes": 1525209,
+      "role": "gold_scores",
+      "required": true
+    },
+    {
+      "relpath": "datasets/splits/stereoset/intersentence_train.json",
+      "sha256": "24e5aaee70d2feaa2a58cadac42cb8c5aaa1985b01f4c9b4ac1f10b067baff49",
+      "bytes": 2839807,
+      "role": "stereoset_inter_train",
+      "required": true
+    },
+    {
+      "relpath": "datasets/splits/stereoset/intersentence_test.json",
+      "sha256": "ab428dccb01890610dc525b6dcad7109116edfdffcc07668bf71a346fe5580dc",
+      "bytes": 1223246,
+      "role": "stereoset_inter_test",
+      "required": true
+    },
+    {
+      "relpath": "datasets/splits/stereoset/intrasentence_train.json",
+      "sha256": "f5cde4c2a344b727bd32f15085e374030ea89b0bf8f2bcc535e5ef1e6a78bf7a",
+      "bytes": 2838240,
+      "role": "stereoset_intra_train",
+      "required": true
+    },
+    {
+      "relpath": "datasets/splits/stereoset/intrasentence_test.json",
+      "sha256": "97018de22908b82bcb561c122d78b97f4521822a0453455d4c57bea9ab1a399a",
+      "bytes": 1213918,
+      "role": "stereoset_intra_test",
+      "required": true
+    },
+    {
+      "relpath": "datasets/processed/stereoset/stereoset_select_options.json",
+      "sha256": "24b1055f9778dafae48f28f76e1839bd4722b43c8e1c0a516532732115b6b00f",
+      "bytes": 1713535,
+      "role": "stereoset_select_options",
+      "required": false
+    },
+    {
+      "relpath": "datasets/processed/stereoset/stereoset_select_options_pred.json",
+      "sha256": "a9581e815890b1c6f84550d84261d766f0c3a23a0932c853bcc675a806997e1a",
+      "bytes": 1713575,
+      "role": "stereoset_select_options_pred",
+      "required": false
+    },
+    {
+      "relpath": "datasets/processed/stereoset/stereoset_select_options_pred_reduced.json",
+      "sha256": "2313b28bcbdc82873b5a2329aea96a34ba21f37ec8e77d51ac48cfaedb4479b6",
+      "bytes": 1500085,
+      "role": "stereoset_select_options_pred_reduced",
+      "required": false
+    },
+    {
+      "relpath": "datasets/raw/crows_pairs/crows_pairs_anonymized.csv",
+      "sha256": "dfb36986ce0502abbaf7055b9176da3d08d48e07df1251991b5dfbcbceab9d0c",
+      "bytes": 437764,
+      "role": "crows_pairs_csv",
+      "required": false
+    }
+  ]
+}

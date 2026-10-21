@@ -1,0 +1,20 @@
+# Pin explicitly when locking the environment for releases.
+FROM pytorch/pytorch:2.4.1-cuda12.1-cudnn9-runtime
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HF_HOME=/app/artifacts/hf_cache \
+    TRANSFORMERS_CACHE=/app/artifacts/hf_cache
+
+COPY pyproject.toml README.md LICENSE NOTICE.md ./
+COPY src ./src
+RUN pip install -e ".[dev]" \
+    && pip install "transformers>=4.40"
+
+COPY configs ./configs
+COPY tests ./tests
+COPY notebooks ./notebooks
+
+CMD ["fairai", "--help"]

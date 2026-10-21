@@ -1,0 +1,54 @@
+# Canonical VAN v2 — from AS-IS best_trial_params + best_threshold_params
+name: van_v2
+backbone: sentence-transformers/all-MiniLM-L6-v2
+num_labels: 3
+max_len: 512
+
+architecture:
+  gen_num_layers: 7
+  gen_hidden_size: 2048
+  gen_dropout: 0.10058170880630318
+  gen_dropout_reg: 0.6966618506291655
+  multihead_num_heads: 8
+  att_dropout: 0.15379908971663211
+  bias_dim: 896
+  bias_num_layers: 1
+  bias_dropout: 0.13555325082778422
+  bias_lambda: 1.420823913441953
+  adversarial_enabled: false
+
+loss:
+  alpha: 1.4754134271841444
+  gamma: 2.141116587644941
+  label_smoothing: 0.08178500482589042
+  penalty_stereo: 2.6749719131773477
+  penalty_anti: 2.1285807730367425
+  penalty_neutral: 1.0680489738969925
+
+optim:
+  learning_rate: 7.036095459256941e-6
+  lr_multiplier: 8.411189790885821
+  weight_decay: 0.00025199241165056014
+  scheduler: cosine
+  warmup_pct: 0.28988563372589066
+  clip_factor: 0.43318566064191855
+  ema_decay: 0.28844261233236335
+
+train:
+  dataset: processed/van_train_leakage_safe.jsonl
+  batch_size: 64
+  grad_accum_steps: 8
+  epochs: 100
+  patience: 5
+  seed: 42
+  amp: true
+
+thresholds:
+  conf: 0.34636621385270194
+  margin: 0.017895798730403725
+  var: 0.49358256652242155
+  temp: 0.1810951504957313
+
+checkpoint:
+  dir: van/v2
+  load: final_model.pt

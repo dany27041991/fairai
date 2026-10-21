@@ -1,0 +1,27 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HF_HOME=/app/artifacts/hf_cache \
+    TRANSFORMERS_CACHE=/app/artifacts/hf_cache
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md LICENSE NOTICE.md ./
+COPY src ./src
+
+# Torch CPU wheel first, then package + transformers + pytest
+RUN pip install --index-url https://download.pytorch.org/whl/cpu \
+      "torch>=2.2" \
+    && pip install -e ".[dev]" \
+    && pip install "transformers>=4.40"
+
+COPY configs ./configs
+COPY tests ./tests
+COPY notebooks ./notebooks
+
+CMD ["fairai", "smoke"]

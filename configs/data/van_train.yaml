@@ -1,0 +1,4 @@
+dataset_relpath: processed/van_train_leakage_safe.jsonl
+val_ratio: 0.15
+stratify: label
+seed: 42

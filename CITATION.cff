@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: "FAIRAI / VAN — reproducible stereotype bias classification"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Danilo
+    given-names: ""
+version: 0.1.0
+date-released: "2026-10-21"
+license: MIT
+abstract: >-
+  Research toolkit for StereoSet-style stereotype classification (VAN v2),
+  ICAT metrics, and Docker Compose evaluation, derived from a master's thesis
+  rewrite under Clean Architecture.
+keywords:
+  - fairness
+  - stereotype
+  - StereoSet
+  - NLP
+  - ICAT
+references:
+  - type: article
+    title: "StereoSet: Measuring stereotypical bias in pretrained language models"
+    authors:
+      - family-names: Nadeem
+        given-names: Moin
+    year: 2020
+    doi: "10.48550/arXiv.2004.09456"
