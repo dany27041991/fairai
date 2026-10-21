@@ -13,7 +13,7 @@ Reproducible stereotype / bias classification (thesis FAIRAI). Clean Architectur
 | M3 ICAT + parity | **done** (~96.1 avg ICAT) |
 | M4 Compose + CI | **done** |
 | M7 Hardening (docs/lint) | **done** |
-| M8 Publish (GitHub + Release `.pt`) | ready — see [docs/RELEASE.md](docs/RELEASE.md) |
+| M8 Publish (GitHub + Release `.pt`) | **done** — [dany27041991/fairai](https://github.com/dany27041991/fairai) · [v0.1.0](https://github.com/dany27041991/fairai/releases/tag/v0.1.0) |
 | M5 Generation / M6 LLM | later |
 
 ## Quick start
