@@ -19,12 +19,20 @@ services:
     profiles: ["train"]
     build:
       context: .
-      dockerfile: docker/Dockerfile.cuda
+      dockerfile: docker/Dockerfile.cpu
     environment: *fairai-env
     volumes: *artifacts
     working_dir: /app
-    command: ["fairai", "--help"]
-    # Enable on hosts with NVIDIA Container Toolkit:
+    command:
+      - fairai
+      - train
+      - -c
+      - configs/experiments/smoke_cpu.yaml
+      - --device
+      - ${FAIRAI_DEVICE:-cpu}
+      - --max-samples
+      - "256"
+    # Full CUDA train: switch dockerfile to Dockerfile.cuda and uncomment:
     # gpus: all
 
   eval:

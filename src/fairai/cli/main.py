@@ -161,6 +161,37 @@ def eval_cmd(
         typer.echo(f"wrote {out}")
 
 
+@app.command("train")
+def train_cmd(
+    config: Path = typer.Option(
+        Path("configs/experiments/smoke_cpu.yaml"),
+        "--config",
+        "-c",
+        help="Experiment YAML (may inherit models/van_v2.yaml).",
+    ),
+    device: str | None = typer.Option(None, "--device", help="cpu|cuda (overrides YAML)."),
+    max_samples: int | None = typer.Option(
+        None, "--max-samples", help="Cap dataset size (smoke)."
+    ),
+    run_id: str | None = typer.Option(None, "--run-id"),
+    artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
+) -> None:
+    """Train VAN; writes checkpoint + metrics under artifacts/models/runs/."""
+    import json
+
+    from fairai.application.train_van import train_van
+    from fairai.infrastructure.artifact_paths import ArtifactPaths
+
+    result = train_van(
+        config_path=config,
+        artifacts=ArtifactPaths.from_env(root=artifacts),
+        device=device,
+        max_samples=max_samples,
+        run_id=run_id,
+    )
+    typer.echo(json.dumps(result.to_dict(), indent=2))
+
+
 @app.command("smoke")
 def smoke_cmd(
     device: str = typer.Option("cpu", "--device"),

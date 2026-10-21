@@ -1,5 +1,5 @@
 .PHONY: install install-torch import-asis manifest-verify test check-lines smoke \
-	compose-smoke compose-eval compose-eval-gpu lint typecheck
+	compose-smoke compose-eval compose-eval-gpu compose-train lint typecheck train-smoke
 
 ASIS_ROOT ?= ../TESI MAGISTRALE
 ARTIFACTS ?= artifacts
@@ -40,3 +40,9 @@ compose-eval:
 
 compose-eval-gpu:
 	docker compose --profile eval-gpu run --rm eval-gpu
+
+compose-train:
+	FAIRAI_DEVICE="$(FAIRAI_DEVICE)" docker compose --profile train run --rm trainer
+
+train-smoke:
+	fairai train -c configs/experiments/smoke_cpu.yaml --device "$(FAIRAI_DEVICE)" --max-samples 256

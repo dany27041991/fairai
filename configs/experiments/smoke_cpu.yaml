@@ -1,9 +1,25 @@
 name: smoke_cpu
 inherits: models/van_v2.yaml
 device: cpu
+# Tiny head for CPU smoke (full v2 arch is for CUDA / overnight runs)
+architecture:
+  gen_num_layers: 2
+  gen_hidden_size: 512
+  gen_dropout: 0.1
+  gen_dropout_reg: 0.3
+  multihead_num_heads: 4
+  att_dropout: 0.1
+  bias_dim: 256
+  bias_num_layers: 1
+  bias_dropout: 0.1
+  bias_lambda: 1.0
+  adversarial_enabled: false
 train:
   dataset: processed/van_minimal_24k.jsonl
   max_samples: 256
   epochs: 1
   batch_size: 8
+  grad_accum_steps: 1
+  patience: 2
   amp: false
+  seed: 42
