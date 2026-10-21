@@ -8,6 +8,7 @@ import typer
 
 from fairai import __version__
 from fairai.cli.icat_cmd import icat_app
+from fairai.cli.llm_cmd import llm_app
 
 app = typer.Typer(
     name="fairai",
@@ -16,6 +17,7 @@ app = typer.Typer(
     add_completion=False,
 )
 app.add_typer(icat_app, name="icat")
+app.add_typer(llm_app, name="llm")
 
 
 def _print_version(value: bool) -> None:

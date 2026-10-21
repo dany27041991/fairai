@@ -51,5 +51,11 @@ train-smoke:
 generate-smoke:
 	fairai generate -c configs/data/generate.yaml
 
+llm-fewshot:
+	fairai llm few-shot --max-examples 64 --device cpu
+
+llm-ppo-smoke:
+	fairai llm ppo-smoke --steps 64
+
 compose-gen:
 	docker compose --profile gen run --rm gen

@@ -25,7 +25,10 @@ dev = [
   "mypy>=1.10",
   "types-PyYAML>=6.0",
 ]
-all = ["fairai[torch,dev]"]
+llm = [
+  "gymnasium>=0.29",
+]
+all = ["fairai[torch,dev,llm]"]
 
 [project.scripts]
 fairai = "fairai.cli.main:app"
