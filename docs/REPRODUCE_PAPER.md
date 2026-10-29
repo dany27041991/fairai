@@ -1,5 +1,7 @@
 # Reproduce IEEE Software tables (unified protocol)
 
+**Software copyright:** Danilo Giovannico, University of Salento — see root `LICENSE` (not MIT).
+
 **Paper SoT:** numbers in `paper/ieee_software_stereotypes.tex` Table A come from this protocol.
 Primary released artifact: `artifacts/results/metrics/f1_test_leakfree_released.json`
 (F1 leak-free **0.962** + iCAT test from `icat_test_verify.json`).

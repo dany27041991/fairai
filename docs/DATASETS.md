@@ -93,7 +93,7 @@ pie title Leakage-safe train labels
 
 | Source | Origin | Notebook treatment | Bias types |
 |--------|--------|--------------------|------------|
-| StereoSet | MIT / local `data/` | Intra + inter; synonyms; combinations | race, gender, profession, religion |
+| StereoSet | Upstream StereoSet release / local `data/` | Intra + inter; synonyms; combinations | race, gender, profession, religion |
 | CrowS-Pairs | anonymized CSV | `sent_more` / `sent_less` → 0/1 | race-color, gender, … |
 | WinoBias | HF `uclanlp/wino_bias` | type1/2 pro/anti | gender |
 | ToxiGen | HF `toxigen/toxigen-data` | remap binary → {0,1,2} | toxicity (skew to 0) |

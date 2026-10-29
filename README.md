@@ -1,59 +1,118 @@
 # FAIRAI / VAN
 
-Reproducible stereotype / bias classification (master’s thesis FAIRAI), rewritten as a Clean Architecture package with Docker Compose and frozen **VAN v2**.
+Open research software for **stereotype detection** in LLM-based services: a unified three-label corpus, a dual-axis evaluation protocol (macro-F1 + adapted StereoSet iCAT), and a compact released classifier (**VAN**) with Optuna-tuned hyperparameters and integration patterns for city / public-sector pipelines.
 
-> Stereotypical/toxic text may appear — research use only. See [NOTICE.md](NOTICE.md).
+**Author:** Danilo Giovannico — University of Salento (Università del Salento), Lecce, Italy  
+**Paper draft:** [`paper/ieee_software_stereotypes.tex`](paper/ieee_software_stereotypes.tex) (IEEE Software theme article)  
+**Repositories:** [softengunisalento/van_bias_aware](https://github.com/softengunisalento/van_bias_aware) · [dany27041991/fairai](https://github.com/dany27041991/fairai)
 
-## Status
+> Training and evaluation text may contain stereotypical language used only for bias research. See [NOTICE.md](NOTICE.md).
 
-| Milestone | State |
-|-----------|--------|
-| M0–M8 (import → Release) | **done** — [repo](https://github.com/dany27041991/fairai) · [v0.1.0](https://github.com/dany27041991/fairai/releases/tag/v0.1.0) |
-| Anti-regression vs notebooks | **PASS** (A–C blockers) — [docs/verification](docs/verification/00_INDEX.md) |
+---
+
+## What you get
+
+| Deliverable | Location |
+|-------------|----------|
+| Released VAN v2 hyperparameters | [`configs/models/van_v2.yaml`](configs/models/van_v2.yaml) |
+| Optuna best configs (CE / −BPL / VAN fair + van-policy) | [`configs/experiments/optuna_*.yaml`](configs/experiments/) · [`artifacts/optuna/`](artifacts/optuna/) |
+| Table A/B metric JSON | [`artifacts/results/metrics/`](artifacts/results/metrics/) |
+| Provenance packs | [`configs/provenance/`](configs/provenance/) |
+| Train / eval / Optuna / suite CLI | `fairai` (Typer) |
+| Full documentation | [`docs/README.md`](docs/README.md) |
+
+**Not shipped in git (large):** raw/processed datasets under `artifacts/datasets/`, model weights `*.pt`. Import or regenerate locally (see below).
+
+---
 
 ## Quick start
 
 ```bash
-cd fairai && python -m venv .venv && source .venv/bin/activate
+git clone https://github.com/softengunisalento/van_bias_aware.git
+cd van_bias_aware   # or fairai checkout
+python -m venv .venv && source .venv/bin/activate
 pip install -e ".[torch,dev]"
-make import-asis ASIS_ROOT="../TESI MAGISTRALE"
-make smoke
-fairai icat --subset all --baseline configs/baselines/baseline_van_v2_icat.json
+
+# Optional: import thesis AS-IS artifacts (datasets + VAN weights)
+make import-asis ASIS_ROOT="/path/to/TESI MAGISTRALE"
+
+# Unit tests (no GPU)
+pytest -q
+
+# Adapted iCAT on StereoSet (needs imported splits + checkpoint)
+fairai icat --subset test --baseline configs/baselines/baseline_van_v2_icat.json
 ```
 
-## Documentation (from thesis notebooks)
+GPU Optuna / suite (Docker):
 
-```mermaid
-flowchart LR
-  OV[OVERVIEW] --> DS[DATASETS]
-  OV --> MV[MODEL_VAN]
-  MV --> TR[TRAIN]
-  MV --> IC[EVAL_ICAT]
-  MV --> INF[INFERENCE]
-  DS --> GEN[GENERATE]
-  INF --> LLM[LLM]
+```bash
+make optuna-vanpolicy-ce      # full-data Optuna, CE family
+make optuna-vanpolicy-nobpl  # full-data Optuna, no bias projection
+# Product compare suite after finals:
+# FAIRAI_SUITE=configs/experiments/suite_optuna_product.yaml \
+#   docker compose --profile experiment run --rm experiment-gpu
 ```
 
-| Topic | Doc |
-|-------|-----|
-| Pipeline & labels | [docs/OVERVIEW.md](docs/OVERVIEW.md) |
-| Notebooks → code | [docs/NOTEBOOKS.md](docs/NOTEBOOKS.md) |
-| Datasets / leakage | [docs/DATASETS.md](docs/DATASETS.md) |
-| VAN architecture | [docs/MODEL_VAN.md](docs/MODEL_VAN.md) |
-| Train | [docs/TRAIN.md](docs/TRAIN.md) |
-| ICAT / StereoSet | [docs/EVAL_ICAT.md](docs/EVAL_ICAT.md) |
-| Infer / thresholds | [docs/INFERENCE.md](docs/INFERENCE.md) |
-| Generation | [docs/GENERATE.md](docs/GENERATE.md) |
-| LLM few-shot / PPO | [docs/LLM.md](docs/LLM.md) |
-| Artifacts / Release | [docs/ARTIFACTS_AND_RESULTS.md](docs/ARTIFACTS_AND_RESULTS.md) |
-| Full index | [docs/README.md](docs/README.md) |
+---
 
-## Coding standards
+## Evaluation protocol (paper)
 
-- Max **500** LOC per `.py` (`fairai check-file-length`)
-- Domain has no torch; hyperparameters in `configs/`
-- Design decisions: `TESI MAGISTRALE/00_ASIS_FOR_REWRITE/TOBE/`
+| Axis | Resource | Notes |
+|------|----------|--------|
+| **F1** | `artifacts/datasets/processed/stereoset/f1_test_leakfree.jsonl` | Neutral-substituted select-options; 0 exact overlap vs train/val |
+| **iCAT** | Official StereoSet **`subset=test`** | Adapted 3-class preference; report inter / intra |
 
-## License
+Released VAN product numbers (Table A): leak-free F1 **0.962**, iCAT test **96.28 / 96.71**.  
+Table B SoT: [`artifacts/results/metrics/optuna_product_compare_agg.json`](artifacts/results/metrics/optuna_product_compare_agg.json).
 
-MIT — [LICENSE](LICENSE). Datasets keep upstream terms ([NOTICE.md](NOTICE.md)).
+Reproduce steps: [`docs/REPRODUCE_PAPER.md`](docs/REPRODUCE_PAPER.md).
+
+---
+
+## Documentation map
+
+| Doc | Contents |
+|-----|----------|
+| [docs/README.md](docs/README.md) | Full index |
+| [docs/OVERVIEW.md](docs/OVERVIEW.md) | Pipeline, labels, Clean Architecture |
+| [docs/DATASETS.md](docs/DATASETS.md) | Corpus, leakage, splits |
+| [docs/MODEL_VAN.md](docs/MODEL_VAN.md) | Architecture & frozen hparams |
+| [docs/TRAIN.md](docs/TRAIN.md) | Training + Optuna HPO |
+| [docs/EVAL_ICAT.md](docs/EVAL_ICAT.md) | Adapted iCAT |
+| [docs/INFERENCE.md](docs/INFERENCE.md) | Predict / thresholds / abstention |
+| [docs/GENERATE.md](docs/GENERATE.md) | Dataset factory |
+| [docs/LLM.md](docs/LLM.md) | Few-shot / PPO patterns |
+| [docs/ARTIFACTS_AND_RESULTS.md](docs/ARTIFACTS_AND_RESULTS.md) | Artifact layout |
+| [docs/REPRODUCE_PAPER.md](docs/REPRODUCE_PAPER.md) | IEEE Software tables |
+| [docs/verification/00_INDEX.md](docs/verification/00_INDEX.md) | Anti-regression waves |
+
+---
+
+## Project layout
+
+```
+configs/          # models, experiments, provenance
+src/fairai/       # domain / application / infrastructure / cli
+paper/            # IEEE Software LaTeX draft
+artifacts/        # metrics + Optuna studies (datasets/weights local)
+docs/             # documentation
+tests/            # unit tests
+docker/           # GPU Optuna / suite entrypoints
+```
+
+Coding rules: max **500** lines per source file under `src/`; hyperparameters live in YAML, not hard-coded loops; domain layer stays free of PyTorch.
+
+---
+
+## Citation
+
+If you use this software or the corpus/protocol in academic work, cite Danilo Giovannico (University of Salento) and the accompanying IEEE Software manuscript when published. Prefer linking the frozen release tag used for your experiments.
+
+---
+
+## License and third-party data
+
+**Copyright (c) 2025–2026 Danilo Giovannico, University of Salento. All rights reserved.**  
+See [LICENSE](LICENSE). This is **not** an MIT (or other OSI) license.
+
+Upstream datasets and the Sentence-BERT backbone remain under their own terms — [NOTICE.md](NOTICE.md).

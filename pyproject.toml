@@ -1,11 +1,13 @@
 [project]
 name = "fairai"
 version = "0.1.0"
-description = "FAIRAI / VAN — reproducible stereotype bias classification research"
+description = "FAIRAI / VAN — stereotype detection corpus, dual-axis eval, and Optuna-tuned classifier (University of Salento)"
 readme = "README.md"
-license = { text = "MIT" }
+license = { text = "Proprietary — Copyright (c) Danilo Giovannico, University of Salento. All rights reserved." }
 requires-python = ">=3.11"
-authors = [{ name = "Danilo" }]
+authors = [
+  { name = "Danilo Giovannico", email = "danilo.giovannico@studenti.unisalento.it" },
+]
 dependencies = [
   "numpy>=1.26",
   "pyyaml>=6.0",

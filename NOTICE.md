@@ -1,5 +1,9 @@
 # Third-party datasets and papers
 
+**FAIRAI / VAN** software copyright: Danilo Giovannico, University of Salento
+(see [LICENSE](LICENSE)). That notice does **not** change upstream dataset or
+model licenses listed below.
+
 This project builds on publicly available fairness / bias NLP resources.
 When redistributing **processed** datasets or reporting results, cite the originals:
 

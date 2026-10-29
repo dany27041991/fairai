@@ -1,4 +1,6 @@
-# M8 — Publication checklist
+# Publication checklist
+
+**Copyright:** Danilo Giovannico, University of Salento — [LICENSE](../LICENSE) (all rights reserved; not MIT).
 
 ## Flow
 
@@ -10,25 +12,32 @@ flowchart LR
   Rel --> Verify[third machine fairai icat]
 ```
 
-## Before first push
+## Before push
 
 | # | Check |
 |---|--------|
-| 1 | `git` repo initialized |
-| 2 | `.gitignore` excludes `artifacts/{datasets,models,results,hf_cache}` and `.env` |
-| 3 | `make smoke` and `make lint` green |
-| 4 | Remote created; `main` pushed |
-| 5 | Tag `v0.1.0` |
+| 1 | Remotes: `origin` = `softengunisalento/van_bias_aware` (and/or `fairai`) |
+| 2 | `.gitignore` keeps datasets/weights local; metrics + Optuna summaries tracked |
+| 3 | `pytest -q` / `make smoke` green where hardware allows |
+| 4 | `LICENSE` is proprietary UniSalento / Giovannico (no MIT) |
+| 5 | Tag release when paper numbers freeze |
 
-## Release assets (large — do not commit)
+## Large assets (do not commit)
 
 | Asset | Place at |
 |-------|----------|
 | `van_v2_final_model.pt` | `artifacts/models/van/v2/final_model.pt` |
-| `best_threshold_params.json` / `best_trial_params.json` | same directory |
+| Full StereoSet / train JSONL | `artifacts/datasets/` |
 | `stereoset_splits.zip` | extract under `artifacts/datasets/splits/` |
-| `baseline_van_v2_icat.json` | also in repo `configs/baselines/` |
-| `manifest.sha256.json` | `artifacts/` → `fairai manifest --verify` |
+
+## Tracked with the repo
+
+| Asset | Path |
+|-------|------|
+| VAN hparams | `configs/models/van_v2.yaml` |
+| Optuna best + `study.db` | `artifacts/optuna/*/`, `configs/experiments/optuna_*_best.yaml` |
+| Eval aggregates | `artifacts/results/metrics/*.json` |
+| Paper draft | `paper/ieee_software_stereotypes.tex` |
 
 ## Verify after download
 

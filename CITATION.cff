@@ -1,23 +1,27 @@
 cff-version: 1.2.0
-title: "FAIRAI / VAN — reproducible stereotype bias classification"
-message: "If you use this software, please cite it as below."
+title: "FAIRAI / VAN — stereotype detection corpus, dual-axis eval, and Optuna-tuned classifier"
+message: "If you use this software, please cite it as below and respect the proprietary LICENSE."
 type: software
 authors:
-  - family-names: Danilo
-    given-names: ""
+  - family-names: Giovannico
+    given-names: Danilo
+    affiliation: "University of Salento"
+    email: danilo.giovannico@studenti.unisalento.it
 version: 0.1.0
-date-released: "2026-10-21"
-license: MIT
+date-released: "2026-10-29"
+license: "Proprietary"
 abstract: >-
-  Research toolkit for StereoSet-style stereotype classification (VAN v2),
-  ICAT metrics, and Docker Compose evaluation, derived from a master's thesis
-  rewrite under Clean Architecture.
+  Research toolkit for stereotype / bias classification (VAN), adapted StereoSet
+  iCAT, Optuna hyperparameter search, and IEEE Software paper reproduction.
+  Copyright Danilo Giovannico, University of Salento — all rights reserved.
 keywords:
   - fairness
   - stereotype
   - StereoSet
   - NLP
-  - ICAT
+  - iCAT
+  - Optuna
+  - smart city
 references:
   - type: article
     title: "StereoSet: Measuring stereotypical bias in pretrained language models"

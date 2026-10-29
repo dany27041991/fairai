@@ -1,66 +1,93 @@
-# Documentation index
+# FAIRAI documentation
 
-**Source of truth (only):** `FAIRAI-Thesis.ipynb` + `FAIRAI-GenerationDataset.ipynb`.  
-Legacy notebooks (`Adversarial Network`, `FAIRAI`, `TEST`) are **not** SoT — see [SOT_CLEANUP_PLAN.md](SOT_CLEANUP_PLAN.md).
+Complete documentation for the **FAIRAI / VAN** package: stereotype detection corpus, dual-axis metrics (macro-F1 + adapted StereoSet iCAT), Optuna HPO, and IEEE Software paper reproduction.
 
-## Doc map
+**Copyright:** Danilo Giovannico — University of Salento. See root [LICENSE](../LICENSE) (all rights reserved; not MIT).
+
+---
+
+## Start here
+
+1. Root [README.md](../README.md) — install, quick start, paper numbers  
+2. [OVERVIEW.md](OVERVIEW.md) — end-to-end pipeline and package layers  
+3. [REPRODUCE_PAPER.md](REPRODUCE_PAPER.md) — Table A / Table B protocol  
+4. [TRAIN.md](TRAIN.md) — training + Optuna (fair compare & van-policy)  
+5. [verification/00_INDEX.md](verification/00_INDEX.md) — anti-regression evidence  
 
 ```mermaid
 flowchart TB
-  IDX[docs/README] --> MAP[CODEBASE_MAP]
-  IDX --> PLAN[SOT_CLEANUP_PLAN]
-  IDX --> OV[OVERVIEW]
-  OV --> NB[NOTEBOOKS]
+  README[Root README] --> OV[OVERVIEW]
   OV --> DS[DATASETS]
   OV --> MV[MODEL_VAN]
   MV --> TR[TRAIN]
+  MV --> IC[EVAL_ICAT]
   MV --> INF[INFERENCE]
   DS --> GEN[GENERATE]
-  MV --> ICAT[EVAL_ICAT]
   INF --> LLM[LLM]
-  OV --> AN[ANALYSIS]
-  OV --> ART[ARTIFACTS_AND_RESULTS]
-  ART --> REL[RELEASE]
-  IDX --> VER[verification/00_INDEX]
+  TR --> RP[REPRODUCE_PAPER]
+  RP --> ART[ARTIFACTS_AND_RESULTS]
+  OV --> VER[verification]
 ```
+
+---
 
 ## Guides
 
-| Doc | Contents | Diagrams |
-|-----|----------|----------|
-| [CODEBASE_MAP.md](CODEBASE_MAP.md) | Package inventory, CLI, KEEP/TRIM matrix | layers, CLI |
-| [SOT_CLEANUP_PLAN.md](SOT_CLEANUP_PLAN.md) | Remove non-SoT surface (docs + dead YAML) | phases |
-| [OVERVIEW.md](OVERVIEW.md) | Pipeline, layers, labels, artifact map | end-to-end, Clean Architecture |
-| [ANALYSIS.md](ANALYSIS.md) | Thesis plots / ANALISYS → `fairai analyze` | cell→CLI map |
-| [THESIS_PARITY.md](THESIS_PARITY.md) | Cell-by-cell Thesis coverage (text/images/code) | parity table |
-| [NOTEBOOKS.md](NOTEBOOKS.md) | Notebook catalog → modules | execution order, concern map |
-| [DATASETS.md](DATASETS.md) | Schemas, counts, leakage, CrowS | data flow, pie labels |
-| [MODEL_VAN.md](MODEL_VAN.md) | Architecture, losses, v2 hparams | model stack, loss, code map |
-| [TRAIN.md](TRAIN.md) | Train loop, Optuna gap, CLI | train flowchart, Optuna |
-| [EVAL_ICAT.md](EVAL_ICAT.md) | LM/SS/iCAT, concat, baselines | metric flow, concat rule |
-| [INFERENCE.md](INFERENCE.md) | Predict + threshold gates | infer + gate decision |
-| [GENERATE.md](GENERATE.md) | GenerationDataset + smoke | full factory + smoke path |
-| [LLM.md](LLM.md) | Few-shot / PPO | prompts, VAN judge, PPO |
-| [ARTIFACTS_AND_RESULTS.md](ARTIFACTS_AND_RESULTS.md) | Checkpoints, gold, Release | tree layout |
-| [RELEASE.md](RELEASE.md) | Publish checklist | — |
-| [verification/00_INDEX.md](verification/00_INDEX.md) | Anti-regression scorecard | wave DAG in plan |
+| Doc | Contents |
+|-----|----------|
+| [OVERVIEW.md](OVERVIEW.md) | Pipeline, labels 0/1/2, Clean Architecture layers |
+| [CODEBASE_MAP.md](CODEBASE_MAP.md) | Module inventory and CLI surface |
+| [DATASETS.md](DATASETS.md) | `van_final` → leakage-safe pool → splits; StereoSet hold-out |
+| [MODEL_VAN.md](MODEL_VAN.md) | Encoder, BPL, residual stack, frozen v2 YAML |
+| [TRAIN.md](TRAIN.md) | `fairai train`, WHM selection, Optuna TPE/MedianPruner |
+| [EVAL_ICAT.md](EVAL_ICAT.md) | Adapted LM/SS/iCAT formulas and concat rules |
+| [INFERENCE.md](INFERENCE.md) | Batch predict, thresholds, MC dropout abstention |
+| [GENERATE.md](GENERATE.md) | Multi-source corpus generation |
+| [LLM.md](LLM.md) | Few-shot MC and PPO reward smoke |
+| [ANALYSIS.md](ANALYSIS.md) | Dataset / RL / CM analysis commands |
+| [ARTIFACTS_AND_RESULTS.md](ARTIFACTS_AND_RESULTS.md) | What is in git vs local-only |
+| [REPRODUCE_PAPER.md](REPRODUCE_PAPER.md) | Leak-free F1 + StereoSet-test iCAT suites |
+| [RELEASE.md](RELEASE.md) | Release checklist |
+| [THESIS_PARITY.md](THESIS_PARITY.md) | Historical notebook ↔ package coverage |
+| [NOTEBOOKS.md](NOTEBOOKS.md) | Notebook catalog (legacy SoT map) |
+| [SOT_CLEANUP_PLAN.md](SOT_CLEANUP_PLAN.md) | Cleanup of non-SoT surfaces |
+| [verification/00_INDEX.md](verification/00_INDEX.md) | Wave A–G scorecard |
+| [verification/GAPS.md](verification/GAPS.md) | Closed / open gaps |
 
-## Reading order (suggested)
+---
 
-1. [CODEBASE_MAP.md](CODEBASE_MAP.md) → [SOT_CLEANUP_PLAN.md](SOT_CLEANUP_PLAN.md)  
-2. [OVERVIEW.md](OVERVIEW.md) → [NOTEBOOKS.md](NOTEBOOKS.md)  
-3. [DATASETS.md](DATASETS.md) → [MODEL_VAN.md](MODEL_VAN.md)  
-4. [TRAIN.md](TRAIN.md) / [EVAL_ICAT.md](EVAL_ICAT.md) / [INFERENCE.md](INFERENCE.md)  
-5. [GENERATE.md](GENERATE.md) → [LLM.md](LLM.md) → [ANALYSIS.md](ANALYSIS.md)  
-6. [verification/00_INDEX.md](verification/00_INDEX.md) for parity evidence  
+## Paper artifacts (tracked)
 
-## External design packs
+| Artifact | Role |
+|----------|------|
+| `configs/models/van_v2.yaml` | Released VAN hyperparameters |
+| `configs/experiments/optuna_*_best.yaml` | Optuna winners for baselines |
+| `configs/provenance/` | Table B / van-policy manifests |
+| `artifacts/optuna/*/best_*.yaml|json` + `study_summary.json` + `study.db` | HPO provenance |
+| `artifacts/results/metrics/*.json` | Eval aggregates (incl. `optuna_product_compare_agg.json`) |
+| `paper/ieee_software_stereotypes.tex` | IEEE Software draft |
 
-| Link | Content |
-|------|---------|
-| [AS-IS rewrite pack](../../TESI%20MAGISTRALE/00_ASIS_FOR_REWRITE/) | Deep inventory |
-| [TO-BE design](../../TESI%20MAGISTRALE/00_ASIS_FOR_REWRITE/TOBE/) | Architecture decisions, roadmap |
-| [NOTICE](../NOTICE.md) | Dataset citations + ethical use |
-| [CONTRIBUTING](../CONTRIBUTING.md) | Dev setup and PR checks |
+Datasets and `.pt` checkpoints stay **local** (`.gitignore`). Import with `make import-asis` or regenerate via `fairai generate`.
 
-Local symlink (optional): `docs/ASIS_SOURCE` → thesis `00_ASIS_FOR_REWRITE`.
+---
+
+## CLI cheat sheet
+
+```bash
+fairai train -c configs/models/van_v2.yaml
+fairai icat --subset test
+fairai experiment suite -c configs/experiments/suite_optuna_product.yaml --skip-train
+fairai experiment optuna -f ce -c configs/experiments/optuna_vanpolicy_base.yaml --n-trials 100
+fairai analyze f1-split
+fairai analyze leakage
+fairai llm few-shot --max-examples 64
+```
+
+Docker GPU helpers: `make optuna-vanpolicy-ce`, `make optuna-vanpolicy-nobpl`, `Makefile` Optuna / suite targets.
+
+---
+
+## License reminder
+
+Software copyright **Danilo Giovannico, University of Salento** — all rights reserved ([LICENSE](../LICENSE)).  
+Third-party data/model terms: [NOTICE.md](../NOTICE.md).
