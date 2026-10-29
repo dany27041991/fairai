@@ -1,0 +1,4 @@
+name: ablation_no_bias_proj_smoke
+inherits: experiments/smoke_cpu.yaml
+architecture:
+  use_bias_projection: false

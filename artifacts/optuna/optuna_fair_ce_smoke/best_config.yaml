@@ -1,0 +1,59 @@
+name: optuna_fair_ce_best
+backbone: sentence-transformers/all-MiniLM-L6-v2
+num_labels: 3
+max_len: 512
+architecture:
+  gen_num_layers: 6
+  gen_hidden_size: 1536
+  gen_dropout: 0.18727005942368125
+  gen_dropout_reg: 0.760571445127933
+  multihead_num_heads: 4
+  att_dropout: 0.36599697090570255
+  bias_dim: 896
+  bias_num_layers: 1
+  bias_dropout: 0.13555325082778422
+  bias_lambda: 1.420823913441953
+  use_bias_projection: false
+loss:
+  alpha: 1.3638900372842315
+  gamma: 1.2280728504951048
+  label_smoothing: 0.07871346474483568
+  penalty_stereo: 1.0
+  penalty_anti: 1.0
+  penalty_neutral: 1.0
+  kind: ce
+  use_class_weights: false
+optim:
+  learning_rate: 2.7081608642499634e-05
+  lr_multiplier: 8.411189790885821
+  weight_decay: 0.002136832907235877
+  scheduler: linear
+  warmup_pct: 0.08493564427131046
+  clip_factor: 0.43318566064191855
+  ema_decay: 0.28844261233236335
+  clip_grad: 0.4454674376934912
+train:
+  dataset: processed/van_train_leakage_safe.jsonl
+  batch_size: 64
+  grad_accum_steps: 8
+  epochs: 100
+  patience: 5
+  seed: 42
+  amp: true
+  dataset_train: processed/van_split_seed42_train.jsonl
+  dataset_val: processed/van_split_seed42_val.jsonl
+  selection_metric: combined
+  f1_weight: 1.88
+  icat_every: 2
+  icat_subset: train
+  stereoset_splits: splits/stereoset
+  weighted_sampler: false
+thresholds:
+  conf: 0.34636621385270194
+  margin: 0.017895798730403725
+  var: 0.49358256652242155
+  temp: 0.1810951504957313
+checkpoint:
+  dir: van/v2
+  load: final_model.pt
+device: cuda

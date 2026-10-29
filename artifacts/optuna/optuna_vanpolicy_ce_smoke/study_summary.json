@@ -1,0 +1,23 @@
+{
+  "study_name": "optuna_vanpolicy_ce_smoke",
+  "family": "ce",
+  "n_trials": 1,
+  "best_trial": 0,
+  "best_value": 64.58526816465897,
+  "best_val_f1": 0.6254555371763418,
+  "best_avg_icat": 65.72538195735414,
+  "best_run_dir": "/app/artifacts/models/runs/optuna_vanpolicy_ce_smoke-t0",
+  "best_config": "/app/artifacts/optuna/optuna_vanpolicy_ce_smoke/best_config.yaml",
+  "best_params_path": "/app/artifacts/optuna/optuna_vanpolicy_ce_smoke/best_trial_params.json",
+  "storage": "sqlite:////app/artifacts/optuna/optuna_vanpolicy_ce_smoke/study.db",
+  "protocol": {
+    "selection_metric": "combined",
+    "icat_subset": "train",
+    "f1_weight": 1.88,
+    "trial_epochs": 2,
+    "trial_patience": 1,
+    "max_samples": null,
+    "report": "val F1 + StereoSet test iCAT after final seeds",
+    "note": "HPO may use max_samples subsample; final suite trains on full split"
+  }
+}

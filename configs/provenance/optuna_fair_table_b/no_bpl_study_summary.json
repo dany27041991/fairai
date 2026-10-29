@@ -1,0 +1,23 @@
+{
+  "study_name": "optuna_fair_no_bpl",
+  "family": "no_bpl",
+  "n_trials": 100,
+  "best_trial": 88,
+  "best_value": 77.30651567054029,
+  "best_val_f1": 0.5867057381799057,
+  "best_avg_icat": 93.0233526918901,
+  "best_run_dir": "/app/artifacts/models/runs/optuna_fair_no_bpl-t88",
+  "best_config": "/app/artifacts/optuna/optuna_fair_no_bpl/best_config.yaml",
+  "best_params_path": "/app/artifacts/optuna/optuna_fair_no_bpl/best_trial_params.json",
+  "storage": "sqlite:////app/artifacts/optuna/optuna_fair_no_bpl/study.db",
+  "protocol": {
+    "selection_metric": "combined",
+    "icat_subset": "train",
+    "f1_weight": 1.88,
+    "trial_epochs": 10,
+    "trial_patience": 3,
+    "max_samples": 4096,
+    "report": "val F1 + StereoSet test iCAT after final seeds",
+    "note": "HPO may use max_samples subsample; final suite trains on full split"
+  }
+}

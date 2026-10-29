@@ -1,0 +1,75 @@
+{
+  "protocol": {
+    "f1": "f1_test_leakfree.jsonl",
+    "icat": "StereoSet test",
+    "VAN": "released Optuna product",
+    "CE_noBPL": "equal-budget Optuna finals 3 seeds",
+    "Frozen": "no Optuna"
+  },
+  "rows": [
+    {
+      "family": "VAN",
+      "n": 1,
+      "f1_macro_mean": 0.9621627400798279,
+      "f1_macro_std": 0.0,
+      "avg_icat_mean": 96.49406778075056,
+      "avg_icat_std": 0.0,
+      "inter_icat_mean": 96.2787175340534,
+      "inter_icat_std": 0.0,
+      "intra_icat_mean": 96.70941802744773,
+      "intra_icat_std": 0.0,
+      "runs": [
+        "released-van-v2"
+      ]
+    },
+    {
+      "family": "CE",
+      "n": 3,
+      "f1_macro_mean": 0.746493459786449,
+      "f1_macro_std": 0.005249984597177867,
+      "avg_icat_mean": 91.58887398050751,
+      "avg_icat_std": 5.951399723608485,
+      "inter_icat_mean": 88.67859682292446,
+      "inter_icat_std": 7.944243850957471,
+      "intra_icat_mean": 94.49915113809055,
+      "intra_icat_std": 4.439862472042051,
+      "runs": [
+        "opta-ce-s42",
+        "opta-ce-s123",
+        "opta-ce-s7"
+      ]
+    },
+    {
+      "family": "noBPL",
+      "n": 3,
+      "f1_macro_mean": 0.6664517826583026,
+      "f1_macro_std": 0.06914925160684174,
+      "avg_icat_mean": 85.36117546507637,
+      "avg_icat_std": 12.116355127004196,
+      "inter_icat_mean": 79.34070026786297,
+      "inter_icat_std": 18.771276376914177,
+      "intra_icat_mean": 91.38165066228976,
+      "intra_icat_std": 6.006561245244009,
+      "runs": [
+        "opta-no_bpl-s42",
+        "opta-no_bpl-s123",
+        "opta-no_bpl-s7"
+      ]
+    },
+    {
+      "family": "Frozen",
+      "n": 1,
+      "f1_macro_mean": 0.5406525698499921,
+      "f1_macro_std": 0.0,
+      "avg_icat_mean": 79.92635796730042,
+      "avg_icat_std": 0.0,
+      "inter_icat_mean": 81.32098683796981,
+      "inter_icat_std": 0.0,
+      "intra_icat_mean": 78.53172909663104,
+      "intra_icat_std": 0.0,
+      "runs": [
+        "rigc-baseline_frozen_lr-s42"
+      ]
+    }
+  ]
+}

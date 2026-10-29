@@ -1,0 +1,8 @@
+name: rigorous_baseline_frozen_lr
+inherits: experiments/baseline_frozen_lr.yaml
+experiment_kind: frozen_lr
+device: cuda
+train:
+  dataset_train: processed/van_split_seed42_train.jsonl
+  dataset_val: processed/van_split_seed42_val.jsonl
+  seed: 42

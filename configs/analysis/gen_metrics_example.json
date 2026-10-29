@@ -1,0 +1,8 @@
+{
+  "rows": [
+    {"model": "Baseline", "perplexity": 12.1, "distinct_1": 0.41, "distinct_2": 0.72, "bleu": 0.18},
+    {"model": "Baseline", "perplexity": 11.8, "distinct_1": 0.39, "distinct_2": 0.70, "bleu": 0.17},
+    {"model": "RL", "perplexity": 10.4, "distinct_1": 0.45, "distinct_2": 0.76, "bleu": 0.21},
+    {"model": "RL", "perplexity": 10.9, "distinct_1": 0.44, "distinct_2": 0.75, "bleu": 0.20}
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "out_path": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/generated/smoke_crows.jsonl",
+  "n_written": 64,
+  "n_removed_leakage": 0,
+  "n_schema_issues": 0,
+  "sources_used": [
+    "crows"
+  ],
+  "note": "Imported processed/*.jsonl remain the training source of truth; this file is a regenerated subset for validation only."
+}

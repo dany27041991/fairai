@@ -1,0 +1,5 @@
+..                                                                       [100%]
+2 passed in 0.02s
+
+Command: pytest tests/unit/test_llm_prompts.py -q
+Result: PASS — build_example_prompt, parse_prediction (Label 0/1/2), gold_label, is_valid_example.

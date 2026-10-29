@@ -42,6 +42,8 @@ class VanArchConfig:
     bias_num_layers: int = 1
     bias_dropout: float = 0.0
     bias_lambda: float = 1.0
+    # Ablation: False → nn.Identity (no BiasProjectionLayer params)
+    use_bias_projection: bool = True
 
 
 class VanClassifier(nn.Module):
@@ -75,13 +77,16 @@ class VanClassifier(nn.Module):
         self.layer_norm = nn.LayerNorm(hidden)
         self.dropout = DynamicDropout(cfg.dropout)
         self.dropout_reg = DynamicDropout(cfg.dropout_reg)
-        self.bias_layer = BiasProjectionLayer(
-            in_dim=hidden,
-            hidden_dim=cfg.bias_dim,
-            num_layers=cfg.bias_num_layers,
-            dropout=cfg.bias_dropout,
-            lambda_factor=cfg.bias_lambda,
-        )
+        if cfg.use_bias_projection:
+            self.bias_layer: nn.Module = BiasProjectionLayer(
+                in_dim=hidden,
+                hidden_dim=cfg.bias_dim,
+                num_layers=cfg.bias_num_layers,
+                dropout=cfg.bias_dropout,
+                lambda_factor=cfg.bias_lambda,
+            )
+        else:
+            self.bias_layer = nn.Identity()
 
         blocks: list[nn.Module] = []
         in_size = hidden

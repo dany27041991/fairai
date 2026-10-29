@@ -10,6 +10,7 @@ from pathlib import Path
 
 from fairai.application.asis_mapping import CANONICAL_SPECS, CopySpec
 from fairai.infrastructure.hashing import sha256_file
+from fairai.infrastructure.torch_van.checkpointing import write_json
 
 
 @dataclass(slots=True)
@@ -76,7 +77,7 @@ def import_asis_artifacts(
             "source_root": str(source_root),
             "files": manifest_files,
         }
-        manifest_path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        write_json(manifest_path, payload)
 
     if missing_required:
         raise FileNotFoundError(

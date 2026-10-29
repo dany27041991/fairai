@@ -1,0 +1,40 @@
+# Table B product plane after van-policy Optuna on baselines:
+# - VAN = released Optuna checkpoint (unchanged)
+# - CE / −BPL = Optuna with VAN policy (full leakage-safe split, no 4096 cap)
+# - Frozen = single fit, no Optuna
+# Eval = leak-free select-options F1 + StereoSet subset=test iCAT
+name: suite_optuna_vanpolicy_product
+device: cuda
+aggregate: true
+experiments:
+  - config: models/van_v2.yaml
+    run_id: released-van-v2
+    run_dir: artifacts/models/runs/released-van-v2
+  - config: experiments/optuna_vanpolicy_ce_best.yaml
+    run_id: ovp-ce-s42
+    seed: 42
+  - config: experiments/optuna_vanpolicy_ce_best.yaml
+    run_id: ovp-ce-s123
+    seed: 123
+  - config: experiments/optuna_vanpolicy_ce_best.yaml
+    run_id: ovp-ce-s7
+    seed: 7
+  - config: experiments/optuna_vanpolicy_no_bpl_best.yaml
+    run_id: ovp-no_bpl-s42
+    seed: 42
+  - config: experiments/optuna_vanpolicy_no_bpl_best.yaml
+    run_id: ovp-no_bpl-s123
+    seed: 123
+  - config: experiments/optuna_vanpolicy_no_bpl_best.yaml
+    run_id: ovp-no_bpl-s7
+    seed: 7
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rigc-baseline_frozen_lr-s42
+    run_dir: artifacts/models/runs/rigc-baseline_frozen_lr-s42
+eval:
+  dataset: processed/stereoset/f1_test_leakfree.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+  eval_out_dir: results/metrics/eval_reports_ovp_product
+out: results/metrics/optuna_vanpolicy_product_compare.json

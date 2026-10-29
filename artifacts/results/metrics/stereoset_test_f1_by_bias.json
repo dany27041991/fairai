@@ -1,0 +1,32 @@
+{
+  "checkpoint": "artifacts/models/runs/released-van-v2/best_model.pt",
+  "config": "configs/models/van_v2.yaml",
+  "subset": "test",
+  "concatenate_rule": "inter=True, intra=False (AS-IS iCAT)",
+  "n_total": 3816,
+  "f1_macro": 0.4091357115545858,
+  "accuracy": 0.49292452830188677,
+  "by_bias_type": {
+    "gender": {
+      "n": 450,
+      "f1_macro": 0.4414052467437168,
+      "accuracy": 0.5222222222222223
+    },
+    "profession": {
+      "n": 1476,
+      "f1_macro": 0.41197632109516075,
+      "accuracy": 0.4932249322493225
+    },
+    "race": {
+      "n": 1746,
+      "f1_macro": 0.39540820487725314,
+      "accuracy": 0.4822451317296678
+    },
+    "religion": {
+      "n": 144,
+      "f1_macro": 0.44298941241970424,
+      "accuracy": 0.5277777777777778
+    }
+  },
+  "device": "cpu"
+}

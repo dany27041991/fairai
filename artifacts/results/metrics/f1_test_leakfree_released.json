@@ -1,0 +1,148 @@
+{
+  "paper_table": "tab:results",
+  "checkpoint": "artifacts/models/runs/released-van-v2/best_model.pt",
+  "config": "configs/models/van_v2.yaml",
+  "f1_protocol": {
+    "dataset": "artifacts/datasets/processed/stereoset/f1_test_leakfree.jsonl",
+    "description": "select-options with neutral label 2; 0 exact overlap vs train/val corpus + select-options train",
+    "n_prompts": 150,
+    "n_options": 450,
+    "overlap_exact_vs_forbidden": 0,
+    "report": "artifacts/analysis/f1_test_leakfree_report.json"
+  },
+  "icat_protocol": {
+    "source": "artifacts/results/metrics/icat_test_verify.json",
+    "subset": "test",
+    "avg_icat": 96.49406778075056
+  },
+  "legacy_contaminated_f1": {
+    "note": "Do not use for Table A; historical select_options test with ~48% exact overlap vs train",
+    "artifact": "artifacts/results/metrics/select_options_test_f1.json"
+  },
+  "classification": {
+    "accuracy": 0.9622222222222222,
+    "f1_macro": 0.9621627400798279,
+    "f1_weighted": 0.9621627400798279,
+    "n_samples": 450,
+    "per_class": {
+      "Stereotypical": {
+        "precision": 0.9466666666666667,
+        "recall": 0.9466666666666667,
+        "f1-score": 0.9466666666666667,
+        "support": 150.0
+      },
+      "Anti-stereotypical": {
+        "precision": 0.9463087248322147,
+        "recall": 0.94,
+        "f1-score": 0.9431438127090301,
+        "support": 150.0
+      },
+      "Neutral": {
+        "precision": 0.9933774834437086,
+        "recall": 1.0,
+        "f1-score": 0.9966777408637874,
+        "support": 150.0
+      },
+      "accuracy": 0.9622222222222222,
+      "macro avg": {
+        "precision": 0.9621176249808633,
+        "recall": 0.9622222222222222,
+        "f1-score": 0.9621627400798279,
+        "support": 450.0
+      },
+      "weighted avg": {
+        "precision": 0.9621176249808633,
+        "recall": 0.9622222222222222,
+        "f1-score": 0.9621627400798279,
+        "support": 450.0
+      }
+    },
+    "label_distribution_pred": {
+      "STEREOTYPE": 150,
+      "ANTI_STEREOTYPE": 149,
+      "NEUTRAL": 151
+    },
+    "label_distribution_true": {
+      "STEREOTYPE": 150,
+      "ANTI_STEREOTYPE": 150,
+      "NEUTRAL": 150
+    },
+    "confusion_matrix": [
+      [
+        142,
+        8,
+        0
+      ],
+      [
+        8,
+        141,
+        1
+      ],
+      [
+        0,
+        0,
+        150
+      ]
+    ],
+    "by_bias_type": {
+      "gender": {
+        "n": 39,
+        "f1_macro": 0.974320987654321,
+        "accuracy": 0.9743589743589743
+      },
+      "profession": {
+        "n": 168,
+        "f1_macro": 0.9523657628920787,
+        "accuracy": 0.9523809523809523
+      },
+      "race": {
+        "n": 234,
+        "f1_macro": 0.965748675956358,
+        "accuracy": 0.9658119658119658
+      },
+      "religion": {
+        "n": 9,
+        "f1_macro": 1.0,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "rows": {
+    "gender": {
+      "f1_macro": 0.974,
+      "f1_n": 39,
+      "icat_inter": 86.47,
+      "icat_intra": 85.64
+    },
+    "race": {
+      "f1_macro": 0.966,
+      "f1_n": 234,
+      "icat_inter": 96.95,
+      "icat_intra": 91.66
+    },
+    "profession": {
+      "f1_macro": 0.952,
+      "f1_n": 168,
+      "icat_inter": 96.15,
+      "icat_intra": 96.59
+    },
+    "religion": {
+      "f1_macro": 1.0,
+      "f1_n": 9,
+      "icat_inter": 75.62,
+      "icat_intra": 95.87
+    },
+    "all": {
+      "f1_macro": 0.962,
+      "f1_n": 450,
+      "icat_inter": 96.28,
+      "icat_intra": 96.71,
+      "avg_icat": 96.49
+    }
+  },
+  "per_class_f1": {
+    "stereo": 0.947,
+    "anti": 0.943,
+    "neutral": 0.997
+  }
+}

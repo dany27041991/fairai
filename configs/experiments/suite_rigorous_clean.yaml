@@ -1,0 +1,59 @@
+# Clean matched suite: WHM early-stop uses StereoSet *train* iCAT
+# (icat_subset from rigorous_base.yaml); reported iCAT on subset=test.
+# New run_id prefix rigc- so historical rig-* checkpoints stay archived.
+name: suite_rigorous_clean
+device: cuda
+aggregate: true
+experiments:
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rigc-van_full-s42
+    seed: 42
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rigc-ablation_no_bpl-s42
+    seed: 42
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rigc-ablation_no_cw-s42
+    seed: 42
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rigc-baseline_ce-s42
+    seed: 42
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rigc-baseline_frozen_lr-s42
+    seed: 42
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rigc-van_full-s123
+    seed: 123
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rigc-ablation_no_bpl-s123
+    seed: 123
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rigc-ablation_no_cw-s123
+    seed: 123
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rigc-baseline_ce-s123
+    seed: 123
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rigc-baseline_frozen_lr-s123
+    seed: 123
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rigc-van_full-s7
+    seed: 7
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rigc-ablation_no_bpl-s7
+    seed: 7
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rigc-ablation_no_cw-s7
+    seed: 7
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rigc-baseline_ce-s7
+    seed: 7
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rigc-baseline_frozen_lr-s7
+    seed: 7
+eval:
+  dataset: processed/van_split_seed42_val.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+  eval_out_dir: results/metrics/eval_reports_rigc
+out: results/metrics/rigorous_clean_compare.json

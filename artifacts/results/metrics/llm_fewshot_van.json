@@ -1,0 +1,10 @@
+{
+  "backend": "van_neutral_judge",
+  "dataset": "artifacts/datasets/processed/stereoset/stereoset_select_options_pred.json",
+  "split": "test",
+  "n": 16,
+  "n_shots": 3,
+  "accuracy": 0.5625,
+  "f1_macro": 0.24,
+  "note": "Generative HF LLM optional; this smoke uses frozen VAN v2 to pick the option with highest P(neutral), matching AS-IS few-shot teaching bias."
+}

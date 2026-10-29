@@ -1,0 +1,24 @@
+# Full paper suite (GPU). Train baselines/ablations + VAN; then StereoSet iCAT.
+# Val F1 is in each run's metrics.json; compare adds avg_icat from StereoSet.
+name: suite_full
+device: cuda
+experiments:
+  - config: models/van_v2.yaml
+    run_id: full-van-v2
+  - config: experiments/baseline_ce.yaml
+    run_id: full-baseline-ce
+  - config: experiments/ablation_no_bias_proj.yaml
+    run_id: full-ablation-nobpl
+  - config: experiments/ablation_no_class_weights.yaml
+    run_id: full-ablation-nocw
+  - config: experiments/baseline_frozen_lr.yaml
+    run_id: full-frozen-lr
+eval:
+  # Avoid F1 on the train JSONL (leak). Paper F1 = best_val_f1_macro from train.
+  # StereoSet iCAT is the external fairness metric.
+  dataset: null
+  max_samples: null
+  batch_size: 64
+  subset: all
+  stereoset_splits: splits/stereoset
+out: results/metrics/baselines_compare.json

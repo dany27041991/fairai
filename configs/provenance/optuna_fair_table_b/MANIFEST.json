@@ -1,0 +1,30 @@
+{
+  "purpose": "Traceability for IEEE Software Table B / product Optuna numbers",
+  "van_released_hparams": "configs/models/van_v2.yaml",
+  "baseline_best_configs": [
+    "configs/experiments/optuna_fair_ce_best.yaml",
+    "configs/experiments/optuna_fair_no_bpl_best.yaml"
+  ],
+  "suite_product": "configs/experiments/suite_optuna_product.yaml",
+  "suite_equal_archive": "configs/experiments/suite_optuna_equal_product.yaml",
+  "hpo_protocol": {
+    "n_trials": 100,
+    "sampler": "TPE",
+    "pruner": "MedianPruner",
+    "objective": "WHM(val_F1, StereoSet-train iCAT)",
+    "f1_weight": 1.88,
+    "max_samples_search": 4096,
+    "final_seeds": [
+      42,
+      123,
+      7
+    ],
+    "eval_plane": "leak-free F1 + StereoSet subset=test iCAT"
+  },
+  "local_full_studies_not_in_git": [
+    "artifacts/optuna/optuna_fair_ce/study.db",
+    "artifacts/optuna/optuna_fair_no_bpl/study.db",
+    "artifacts/optuna/optuna_fair_van/study.db"
+  ],
+  "note": "study.db + per-trial YAML live under artifacts/ (gitignored). This pack mirrors best params + summaries + aggregate metrics for version control."
+}

@@ -1,0 +1,30 @@
+# Fair compare: released Optuna VAN vs suite baselines/ablations (no retrain).
+# F1 on fixed val split (seed 42, 10% of leakage-safe); iCAT on StereoSet all.
+name: suite_vs_released
+device: cuda
+experiments:
+  - config: models/van_v2.yaml
+    run_id: released-van-v2
+    run_dir: artifacts/models/runs/released-van-v2
+  - config: experiments/baseline_ce.yaml
+    run_id: full-baseline-ce
+    run_dir: artifacts/models/runs/full-baseline-ce
+  - config: experiments/ablation_no_bias_proj.yaml
+    run_id: full-ablation-nobpl
+    run_dir: artifacts/models/runs/full-ablation-nobpl
+  - config: experiments/ablation_no_class_weights.yaml
+    run_id: full-ablation-nocw
+    run_dir: artifacts/models/runs/full-ablation-nocw
+  - config: experiments/baseline_frozen_lr.yaml
+    run_id: full-frozen-lr
+    run_dir: artifacts/models/runs/full-frozen-lr
+  # suite retrain VAN (same protocol as baselines; for contrast with released)
+  - config: models/van_v2.yaml
+    run_id: full-van-v2
+    run_dir: artifacts/models/runs/full-van-v2
+eval:
+  dataset: processed/van_compare_val_seed42.jsonl
+  batch_size: 64
+  subset: all
+  stereoset_splits: splits/stereoset
+out: results/metrics/baselines_vs_released_van.json

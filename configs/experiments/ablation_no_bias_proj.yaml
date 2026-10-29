@@ -1,0 +1,6 @@
+# Ablation: full VAN loss/optim, BiasProjection removed (Identity)
+name: ablation_no_bias_proj
+inherits: models/van_v2.yaml
+experiment_kind: van
+architecture:
+  use_bias_projection: false

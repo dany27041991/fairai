@@ -1,0 +1,49 @@
+{
+  "intersentence": {
+    "lm": 98.35138954309939,
+    "ss": 48.83027162819909,
+    "icat": 96.05050132800726,
+    "n": 6369
+  },
+  "intrasentence": {
+    "lm": 98.16397594175372,
+    "ss": 51.028806584362144,
+    "icat": 96.14414104583285,
+    "n": 6318
+  },
+  "avg_icat": 96.09732118692006,
+  "by_bias_type": {
+    "gender": {
+      "lm": 97.98792756539235,
+      "ss": 47.1495640509725,
+      "icat": 92.40176133933042,
+      "n": 1491
+    },
+    "profession": {
+      "lm": 98.20810425575239,
+      "ss": 48.97169619222154,
+      "icat": 96.18834890453451,
+      "n": 4911
+    },
+    "race": {
+      "lm": 98.43481252149982,
+      "ss": 51.04919160646715,
+      "icat": 96.36927293986533,
+      "n": 5814
+    },
+    "religion": {
+      "lm": 97.45222929936305,
+      "ss": 54.77707006369427,
+      "icat": 88.14150675483792,
+      "n": 471
+    }
+  },
+  "n_total": 12687,
+  "subset": "all",
+  "concatenate_context": true
+}
+[OK] avg_icat: actual=96.0973 baseline=96.0973 tol=1.0
+[OK] intersentence.icat: actual=96.0505 baseline=96.0505 tol=1.5
+[OK] intrasentence.icat: actual=96.1441 baseline=96.1441 tol=1.5
+[OK] intersentence.lm: actual=98.3514 baseline=98.3514 tol=2.0
+[OK] intrasentence.lm: actual=98.1640 baseline=98.1640 tol=2.0

@@ -1,0 +1,9 @@
+{
+  "backend": "gymnasium",
+  "algorithm": "reinforce_smoke",
+  "steps": 8,
+  "mean_reward": -1.8125,
+  "dataset": "artifacts/datasets/processed/stereoset/stereoset_select_options_pred.json",
+  "reward_mode": "thesis_relative",
+  "note": "Env reward/filter match Thesis StereosetEnv; policy is REINFORCE MLP smoke (not CausalLM CleanRL PPO \u2014 GAP-F5). See docs/LLM.md."
+}

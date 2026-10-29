@@ -15,8 +15,6 @@ architecture:
   bias_num_layers: 1
   bias_dropout: 0.13555325082778422
   bias_lambda: 1.420823913441953
-  adversarial_enabled: false
-
 loss:
   alpha: 1.4754134271841444
   gamma: 2.141116587644941
@@ -27,12 +25,14 @@ loss:
 
 optim:
   learning_rate: 7.036095459256941e-6
-  lr_multiplier: 8.411189790885821
+  # Recorded from Optuna trial; NOT wired in fairai train (single AdamW lr).
+  # Kept for provenance only — do not treat as active hyperparameters.
+  lr_multiplier: 8.411189790885821  # unused
   weight_decay: 0.00025199241165056014
   scheduler: cosine
   warmup_pct: 0.28988563372589066
   clip_factor: 0.43318566064191855
-  ema_decay: 0.28844261233236335
+  ema_decay: 0.28844261233236335  # unused (no EMA in train_van)
 
 train:
   dataset: processed/van_train_leakage_safe.jsonl

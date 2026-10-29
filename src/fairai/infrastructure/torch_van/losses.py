@@ -83,7 +83,33 @@ class BiasAwareLoss(nn.Module):
         return (loss * factor).mean()
 
 
-def build_bias_aware_loss(loss_cfg: dict, *, num_labels: int = 3) -> BiasAwareLoss:
+def compute_class_weights(
+    labels: list[int] | torch.Tensor,
+    *,
+    num_classes: int = 3,
+) -> torch.Tensor:
+    """Thesis ``compute_class_weights``: ``total / (C · count_c)`` per class."""
+    if isinstance(labels, torch.Tensor):
+        label_list = [int(x) for x in labels.tolist()]
+    else:
+        label_list = [int(x) for x in labels]
+    counts = [0] * num_classes
+    for lab in label_list:
+        if 0 <= lab < num_classes:
+            counts[lab] += 1
+    total = sum(counts)
+    weights = [
+        (total / (num_classes * c) if c > 0 else 0.0) for c in counts
+    ]
+    return torch.tensor(weights, dtype=torch.float32)
+
+
+def build_bias_aware_loss(
+    loss_cfg: dict,
+    *,
+    num_labels: int = 3,
+    class_weights: torch.Tensor | None = None,
+) -> BiasAwareLoss:
     focal = FocalLoss(
         alpha=float(loss_cfg.get("alpha", 1.0)),
         gamma=float(loss_cfg.get("gamma", 1.0)),
@@ -96,4 +122,32 @@ def build_bias_aware_loss(loss_cfg: dict, *, num_labels: int = 3) -> BiasAwareLo
         penalty_stereo=float(loss_cfg.get("penalty_stereo", 1.0)),
         penalty_anti=float(loss_cfg.get("penalty_anti", 1.0)),
         penalty_neutral=float(loss_cfg.get("penalty_neutral", 1.0)),
+        class_weights=class_weights,
+    )
+
+
+def build_train_criterion(
+    loss_cfg: dict,
+    *,
+    num_labels: int = 3,
+    labels_for_weights: list[int] | None = None,
+) -> nn.Module:
+    """Build train loss from YAML.
+
+    ``loss.kind``: ``bias_aware`` (default Thesis) | ``ce`` (plain CrossEntropy).
+    ``loss.use_class_weights``: when True (default), Thesis inverse-frequency weights.
+    """
+    kind = str(loss_cfg.get("kind", "bias_aware")).lower()
+    use_cw = bool(loss_cfg.get("use_class_weights", True))
+    class_weights: torch.Tensor | None = None
+    if use_cw and labels_for_weights is not None:
+        class_weights = compute_class_weights(labels_for_weights, num_classes=num_labels)
+
+    if kind in {"ce", "cross_entropy", "crossentropy"}:
+        if class_weights is not None:
+            return nn.CrossEntropyLoss(weight=class_weights)
+        return nn.CrossEntropyLoss()
+
+    return build_bias_aware_loss(
+        loss_cfg, num_labels=num_labels, class_weights=class_weights
     )

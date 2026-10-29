@@ -1,0 +1,32 @@
+{
+  "checkpoint": "artifacts/models/runs/released-van-v2/best_model.pt",
+  "config": "configs/models/van_v2.yaml",
+  "paper_table_results": {
+    "f1_protocol": "leakage-safe val van_split_seed42_val.jsonl; macro-F1; per-bias uses labels present in group (neutrals have bias_type null)",
+    "icat_protocol": "StereoSet test adapted iCAT (icat_test_verify.json)",
+    "rows": {
+      "gender": {"f1_macro": 0.992, "icat_inter": 86.47, "icat_intra": 85.64, "f1_n": 1224},
+      "race": {"f1_macro": 0.98, "icat_inter": 96.95, "icat_intra": 91.66, "f1_n": 812},
+      "profession": {"f1_macro": 0.979, "icat_inter": 96.15, "icat_intra": 96.59, "f1_n": 661},
+      "religion": {"f1_macro": 0.981, "icat_inter": 75.62, "icat_intra": 95.87, "f1_n": 105},
+      "all": {"f1_macro": 0.987, "icat_inter": 96.28, "icat_intra": 96.71, "f1_n": 5041, "avg_icat": 96.49}
+    }
+  },
+  "stereoset_test_official_gold_classification": {
+    "n": 3816,
+    "f1_macro": 0.409,
+    "accuracy": 0.492,
+    "note": "NOT used in paper table: gold label-2=unrelated ≠ VAN neutral (recall≈0.03 on class 2)"
+  },
+  "val_leakage_safe_seed42": {
+    "n": 5041,
+    "f1_macro_labels_012": 0.9869166189684947,
+    "accuracy": 0.9871057329894862,
+    "by_bias_f1_auto_present_classes": {
+      "gender": 0.9918,
+      "race": 0.9803,
+      "profession": 0.9788,
+      "religion": 0.9809
+    }
+  }
+}

@@ -1,0 +1,17 @@
+# Baseline: frozen MiniLM mean-pool + multinomial LogisticRegression
+name: baseline_frozen_lr
+experiment_kind: frozen_lr
+backbone: sentence-transformers/all-MiniLM-L6-v2
+num_labels: 3
+max_len: 512
+device: cuda
+train:
+  dataset: processed/van_train_leakage_safe.jsonl
+  batch_size: 128
+  seed: 42
+logistic:
+  max_iter: 2000
+  C: 1.0
+  class_weight: balanced
+  solver: lbfgs
+  n_jobs: -1

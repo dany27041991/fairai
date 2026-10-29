@@ -1,0 +1,14 @@
+name: baseline_frozen_lr_smoke
+inherits: experiments/baseline_frozen_lr.yaml
+device: cpu
+train:
+  dataset: processed/van_minimal_24k.jsonl
+  max_samples: 256
+  batch_size: 32
+  seed: 42
+logistic:
+  max_iter: 500
+  C: 1.0
+  class_weight: balanced
+  solver: lbfgs
+  n_jobs: 1

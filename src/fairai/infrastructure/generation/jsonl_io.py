@@ -17,6 +17,7 @@ def write_examples(path: Path, examples: list[Example]) -> int:
 
 
 def load_examples_jsonl(path: Path, *, max_samples: int | None = None) -> list[Example]:
+    """Deprecated alias — prefer ``jsonl_repo.load_examples``."""
     from fairai.infrastructure.data.jsonl_repo import load_examples
 
     return load_examples(path, max_samples=max_samples)

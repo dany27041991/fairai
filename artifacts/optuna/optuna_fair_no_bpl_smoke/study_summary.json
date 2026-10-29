@@ -1,0 +1,21 @@
+{
+  "study_name": "optuna_fair_no_bpl_smoke",
+  "family": "no_bpl",
+  "n_trials": 2,
+  "best_trial": 0,
+  "best_value": 48.510302350347,
+  "best_val_f1": 0.3148146586253275,
+  "best_avg_icat": 68.10579882048582,
+  "best_run_dir": "/app/artifacts/models/runs/optuna_fair_no_bpl_smoke-t0",
+  "best_config": "/app/artifacts/optuna/optuna_fair_no_bpl_smoke/best_config.yaml",
+  "best_params_path": "/app/artifacts/optuna/optuna_fair_no_bpl_smoke/best_trial_params.json",
+  "storage": "sqlite:////app/artifacts/optuna/optuna_fair_no_bpl_smoke/study.db",
+  "protocol": {
+    "selection_metric": "combined",
+    "icat_subset": "train",
+    "f1_weight": 1.88,
+    "trial_epochs": 2,
+    "trial_patience": 1,
+    "report": "val F1 + StereoSet test iCAT after final seeds"
+  }
+}

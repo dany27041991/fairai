@@ -1,0 +1,4 @@
+name: rigorous_van_full
+inherits: experiments/rigorous_base.yaml
+experiment_kind: van
+# full VAN: BiasProjection + BiasAware + class weights + sampler (from van_v2)

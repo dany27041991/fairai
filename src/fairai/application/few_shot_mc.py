@@ -6,14 +6,14 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
-from sklearn.metrics import accuracy_score, f1_score
-
 from fairai.infrastructure.artifact_paths import ArtifactPaths
+from fairai.infrastructure.llm.few_shot_metrics import score_int_labels
 from fairai.infrastructure.llm.mc_dataset import load_mc_file
 from fairai.infrastructure.llm.prompts import (
     build_few_shot_prompt,
     build_test_prompt,
     gold_label,
+    requires_neutral_predicted,
 )
 from fairai.infrastructure.llm.van_judge import VanOptionJudge
 from fairai.infrastructure.torch_van.checkpointing import write_json
@@ -53,12 +53,14 @@ def run_few_shot_mc(
 
     shots = train[:n_shots]
     prefix = build_few_shot_prompt(shots) if shots else ""
-    sample_prompt = build_test_prompt(test[0], few_shot_prefix=prefix)
+    # Thesis few-shot mode keeps only examples with a Neutral predicted option
+    scored = [ex for ex in test if requires_neutral_predicted(ex)] or list(test)
+    sample_prompt = build_test_prompt(scored[0], few_shot_prefix=prefix)
 
     judge = VanOptionJudge(checkpoint=checkpoint, config=config, device=device)
     y_true: list[int] = []
     y_pred: list[int] = []
-    for ex in test[:max_examples]:
+    for ex in scored[:max_examples]:
         gold = gold_label(ex)
         pred = judge.predict_label(ex)
         if gold is None or pred is None:
@@ -69,8 +71,7 @@ def run_few_shot_mc(
     if not y_true:
         raise RuntimeError("No scorable MC examples")
 
-    acc = float(accuracy_score(y_true, y_pred))
-    f1 = float(f1_score(y_true, y_pred, average="macro", zero_division=0))
+    acc, f1 = score_int_labels(y_true, y_pred)
     out = paths.metrics_dir() / out_name
     payload = {
         "backend": "van_neutral_judge",

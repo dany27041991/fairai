@@ -1,0 +1,33 @@
+{
+  "purpose": "Baselines Optuna under released-VAN policy; VAN row unchanged",
+  "corpus": {
+    "source": "artifacts/datasets/processed/van_final.jsonl",
+    "n_source": 55817,
+    "train_pool": "artifacts/datasets/processed/van_train_leakage_safe.jsonl",
+    "n_train_pool": 50409,
+    "note": "Same VAN recipe: drop 5408 StereoSet-test exact matches from van_final before train/val split. Raw van_final must not be used for training when evaluating on StereoSet test / select-options (leakage).",
+    "split_train": "artifacts/datasets/processed/van_split_seed42_train.jsonl",
+    "split_val": "artifacts/datasets/processed/van_split_seed42_val.jsonl"
+  },
+  "optuna_policy": {
+    "sampler": "TPESampler(seed=42)",
+    "pruner": "MedianPruner(n_startup_trials=5, n_warmup_steps=2)",
+    "n_trials": 100,
+    "objective": "WHM(val_F1, StereoSet-train iCAT)",
+    "f1_weight": 1.88,
+    "max_samples": null,
+    "trial_epochs": 100,
+    "trial_patience": 5,
+    "icat_subset_search": "train",
+    "vs_previous_fair_hpo": "previous used max_samples=4096 and trial_epochs=10; this matches VAN full-data early-stop recipe"
+  },
+  "eval_plane": {
+    "f1": "processed/stereoset/f1_test_leakfree.jsonl",
+    "icat": "StereoSet subset=test"
+  },
+  "van_row": "configs/models/van_v2.yaml + artifacts/models/runs/released-van-v2",
+  "studies": [
+    "artifacts/optuna/optuna_vanpolicy_ce",
+    "artifacts/optuna/optuna_vanpolicy_no_bpl"
+  ]
+}

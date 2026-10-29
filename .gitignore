@@ -15,14 +15,26 @@ build/
 .env.*
 !.env.example
 
-# Artifacts (large / local) — keep README + manifest template
+# Artifacts (large / local) — keep README + paper-traceable metrics/HPO
 artifacts/datasets/**
 artifacts/models/**
 artifacts/results/**
 artifacts/logs/**
 artifacts/hf_cache/**
+artifacts/analysis/**
 !artifacts/README.md
 !artifacts/**/.gitkeep
+# Paper / Table B traceability (hyperparams + aggregate metrics)
+!artifacts/results/
+!artifacts/results/metrics/
+!artifacts/results/metrics/**/*.json
+!artifacts/optuna/
+!artifacts/optuna/*/
+artifacts/optuna/*/trials/
+!artifacts/optuna/*/best_config.yaml
+!artifacts/optuna/*/best_trial_params.json
+!artifacts/optuna/*/study_summary.json
+!artifacts/optuna/*/study.db
 
 # IDE / OS
 .DS_Store
@@ -31,12 +43,15 @@ artifacts/hf_cache/**
 .vscode/
 *.swp
 
-# Notebooks
+# Notebooks / personal thesis PDF (not part of release)
 .ipynb_checkpoints/
 **/* Copia*
+Thesis*.pdf
+*.pdf
 
 # Torch / Optuna noise
 *.pt
 *.pth
 *.db
+!artifacts/optuna/*/study.db
 events.out.tfevents.*

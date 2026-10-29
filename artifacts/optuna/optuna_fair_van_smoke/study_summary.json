@@ -1,0 +1,21 @@
+{
+  "study_name": "optuna_fair_van_smoke",
+  "family": "van",
+  "n_trials": 2,
+  "best_trial": 1,
+  "best_value": 48.3472497063306,
+  "best_val_f1": 0.3463792482707641,
+  "best_avg_icat": 61.23984824911771,
+  "best_run_dir": "/app/artifacts/models/runs/optuna_fair_van_smoke-t1",
+  "best_config": "/app/artifacts/optuna/optuna_fair_van_smoke/best_config.yaml",
+  "best_params_path": "/app/artifacts/optuna/optuna_fair_van_smoke/best_trial_params.json",
+  "storage": "sqlite:////app/artifacts/optuna/optuna_fair_van_smoke/study.db",
+  "protocol": {
+    "selection_metric": "combined",
+    "icat_subset": "train",
+    "f1_weight": 1.88,
+    "trial_epochs": 2,
+    "trial_patience": 1,
+    "report": "val F1 + StereoSet test iCAT after final seeds"
+  }
+}

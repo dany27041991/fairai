@@ -35,6 +35,23 @@ services:
     # Full CUDA train: switch dockerfile to Dockerfile.cuda and uncomment:
     # gpus: all
 
+  # Full baselines/ablations suite on GPU (F1 val + StereoSet iCAT).
+  # Uses local vLLM CUDA image (avoids multi-GB pytorch base pull).
+  experiment-gpu:
+    profiles: ["experiment"]
+    image: vllm/vllm-openai:latest
+    entrypoint: ["python3", "-u"]
+    environment:
+      <<: *fairai-env
+      FAIRAI_DEVICE: cuda
+    volumes:
+      - ./:/app
+      - ./artifacts:/app/artifacts
+    working_dir: /app
+    gpus: all
+    command:
+      - /app/docker/run_experiment_suite.py
+
   eval:
     profiles: ["eval"]
     build:

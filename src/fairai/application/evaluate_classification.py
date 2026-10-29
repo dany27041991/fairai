@@ -2,18 +2,23 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from collections import defaultdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 import torch
-from sklearn.metrics import accuracy_score, classification_report, f1_score
-from torch.utils.data import DataLoader, Dataset
-from transformers import AutoTokenizer
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+)
+from torch.utils.data import DataLoader
 
-from fairai.domain.example import Example
 from fairai.domain.labels import Label
 from fairai.infrastructure.data.jsonl_repo import load_examples
-from fairai.infrastructure.torch_van.checkpoint import load_van_classifier
+from fairai.infrastructure.torch_van.checkpoint import load_van_and_tokenizer
+from fairai.infrastructure.torch_van.encoded_dataset import EncodedDataset
 from fairai.infrastructure.torch_van.thresholds import predict_from_logits
 
 
@@ -26,39 +31,17 @@ class ClassificationReport:
     per_class: dict
     label_distribution_pred: dict[str, int]
     label_distribution_true: dict[str, int]
+    confusion_matrix: list[list[int]]
+    y_true: list[int]
+    y_pred: list[int]
+    by_bias_type: dict[str, dict] = field(default_factory=dict)
 
     def to_dict(self) -> dict:
-        return asdict(self)
-
-
-class _EncodedDataset(Dataset):
-    def __init__(
-        self,
-        examples: list[Example],
-        tokenizer: AutoTokenizer,
-        max_len: int,
-    ) -> None:
-        sentences = [ex.sentence for ex in examples]
-        enc = tokenizer(
-            sentences,
-            max_length=max_len,
-            padding="max_length",
-            truncation=True,
-            return_tensors="pt",
-        )
-        self.input_ids = enc["input_ids"]
-        self.attention_mask = enc["attention_mask"]
-        self.labels = torch.tensor([int(ex.label) for ex in examples], dtype=torch.long)
-
-    def __len__(self) -> int:
-        return int(self.labels.size(0))
-
-    def __getitem__(self, idx: int) -> dict[str, torch.Tensor]:
-        return {
-            "input_ids": self.input_ids[idx],
-            "attention_mask": self.attention_mask[idx],
-            "label": self.labels[idx],
-        }
+        # Omit raw vectors from default JSON (large); keep matrix.
+        data = asdict(self)
+        data.pop("y_true", None)
+        data.pop("y_pred", None)
+        return data
 
 
 def evaluate_classification(
@@ -72,22 +55,19 @@ def evaluate_classification(
     max_len: int = 512,
     apply_threshold_gates: bool = False,
 ) -> ClassificationReport:
-    model, thresholds, raw = load_van_classifier(
-        checkpoint_path, config_path, device=device
+    bundle = load_van_and_tokenizer(
+        checkpoint_path, config_path, device=device, default_max_len=max_len
     )
-    backbone = str(raw.get("backbone", "sentence-transformers/all-MiniLM-L6-v2"))
-    max_len = int(raw.get("max_len", max_len))
-    tokenizer = AutoTokenizer.from_pretrained(backbone)
-
     examples = load_examples(dataset_path, max_samples=max_samples)
     if not examples:
         raise ValueError(f"No examples in {dataset_path}")
 
     loader = DataLoader(
-        _EncodedDataset(examples, tokenizer, max_len),
+        EncodedDataset(examples, bundle.tokenizer, bundle.max_len),
         batch_size=batch_size,
         shuffle=False,
     )
+    thresholds = bundle.thresholds
 
     y_true: list[int] = []
     y_pred: list[int] = []
@@ -95,7 +75,7 @@ def evaluate_classification(
         for batch in loader:
             input_ids = batch["input_ids"].to(device)
             attention_mask = batch["attention_mask"].to(device)
-            logits, _ = model(input_ids, attention_mask)
+            logits, _ = bundle.model(input_ids, attention_mask)
             pred, _ = predict_from_logits(
                 logits,
                 temp=thresholds["temp"] if apply_threshold_gates else 1.0,
@@ -117,6 +97,21 @@ def evaluate_classification(
     )
     dist_true = {Label(i).name: y_true.count(i) for i in range(3)}
     dist_pred = {Label(i).name: y_pred.count(i) for i in range(3)}
+    cm = confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
+    by_bias: dict[str, dict] = {}
+    groups: dict[str, list[int]] = defaultdict(list)
+    for i, ex in enumerate(examples):
+        groups[ex.bias_type or "null"].append(i)
+    for bias, idxs in sorted(groups.items()):
+        yt = [y_true[i] for i in idxs]
+        yp = [y_pred[i] for i in idxs]
+        by_bias[bias] = {
+            "n": len(idxs),
+            "f1_macro": float(
+                f1_score(yt, yp, average="macro", labels=[0, 1, 2], zero_division=0)
+            ),
+            "accuracy": float(accuracy_score(yt, yp)),
+        }
     return ClassificationReport(
         accuracy=float(accuracy_score(y_true, y_pred)),
         f1_macro=float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
@@ -125,4 +120,8 @@ def evaluate_classification(
         per_class=report,
         label_distribution_pred=dist_pred,
         label_distribution_true=dist_true,
+        confusion_matrix=cm.tolist(),
+        y_true=list(y_true),
+        y_pred=list(y_pred),
+        by_bias_type=by_bias,
     )

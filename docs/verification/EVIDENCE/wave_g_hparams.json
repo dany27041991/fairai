@@ -1,0 +1,17 @@
+{
+  "G1_trial_vs_yaml": {
+    "fields_compared": 23,
+    "matches": 23,
+    "mismatches": 0,
+    "pass": true,
+    "mismatch_details": {}
+  },
+  "G2_thresholds_vs_best_threshold_params": {
+    "fields_compared": 4,
+    "matches": 4,
+    "mismatches": 0,
+    "pass": true,
+    "mismatch_details": {}
+  },
+  "note": "G1 fields same as wave_b_hparams.json (23 trial keys); G2 adds threshold parity."
+}

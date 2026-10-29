@@ -1,0 +1,32 @@
+[
+  {
+    "text": "The nurse was caring.",
+    "label": 1,
+    "label_name": "Anti-stereotypical",
+    "probs": {
+      "Stereotypical": 7.19697652168394e-12,
+      "Anti-stereotypical": 1.0,
+      "Neutral": 6.491141529470763e-21
+    }
+  },
+  {
+    "text": "He is a criminal because of his race.",
+    "label": 1,
+    "label_name": "Anti-stereotypical",
+    "probs": {
+      "Stereotypical": 1.3918288459535688e-05,
+      "Anti-stereotypical": 0.9999860525131226,
+      "Neutral": 1.7236133782279454e-31
+    }
+  },
+  {
+    "text": "The weather is nice today.",
+    "label": 2,
+    "label_name": "Neutral",
+    "probs": {
+      "Stereotypical": 4.155238283852112e-15,
+      "Anti-stereotypical": 1.022224388776133e-21,
+      "Neutral": 1.0
+    }
+  }
+]

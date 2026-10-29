@@ -1,0 +1,101 @@
+{
+  "n": 6,
+  "rows": [
+    {
+      "run_dir": "artifacts/models/runs/released-van-v2",
+      "kind": "van",
+      "experiment": "released_van_v2",
+      "ablation": {
+        "use_bias_projection": true,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": null,
+      "eval_f1_macro": 0.9867150398980518,
+      "eval_accuracy": 0.986907359650863,
+      "avg_icat": 96.09732118692006
+    },
+    {
+      "run_dir": "artifacts/models/runs/full-baseline-ce",
+      "kind": "van",
+      "experiment": "baseline_ce",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "ce",
+        "use_class_weights": false,
+        "weighted_sampler": false,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.6852300793087448,
+      "eval_f1_macro": 0.6852300793087448,
+      "eval_accuracy": 0.691132711763539,
+      "avg_icat": 88.56424748276709
+    },
+    {
+      "run_dir": "artifacts/models/runs/full-ablation-nobpl",
+      "kind": "van",
+      "experiment": "ablation_no_bias_proj",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.6472720121089967,
+      "eval_f1_macro": 0.6472720121089967,
+      "eval_accuracy": 0.6468954572505455,
+      "avg_icat": 89.92932032213943
+    },
+    {
+      "run_dir": "artifacts/models/runs/full-ablation-nocw",
+      "kind": "van",
+      "experiment": "ablation_no_class_weights",
+      "ablation": {
+        "use_bias_projection": true,
+        "loss_kind": "bias_aware",
+        "use_class_weights": false,
+        "weighted_sampler": false,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.6616127320694362,
+      "eval_f1_macro": 0.6616127320694362,
+      "eval_accuracy": 0.6768498313826622,
+      "avg_icat": 79.15453460693658
+    },
+    {
+      "run_dir": "artifacts/models/runs/full-frozen-lr",
+      "kind": "frozen_lr",
+      "experiment": "baseline_frozen_lr",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "logistic",
+        "use_class_weights": true,
+        "weighted_sampler": false,
+        "freeze_backbone": true
+      },
+      "best_val_f1_macro": 0.6406306893141901,
+      "eval_f1_macro": 0.6406306893141901,
+      "eval_accuracy": 0.6472922039277921,
+      "avg_icat": 80.64527847743719
+    },
+    {
+      "run_dir": "artifacts/models/runs/full-van-v2",
+      "kind": "van",
+      "experiment": "van_v2",
+      "ablation": {
+        "use_bias_projection": true,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.670841202530842,
+      "eval_f1_macro": 0.670841202530842,
+      "eval_accuracy": 0.6800238048006348,
+      "avg_icat": 83.51254252974442
+    }
+  ]
+}

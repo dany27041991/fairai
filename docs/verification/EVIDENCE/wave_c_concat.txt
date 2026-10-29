@@ -1,0 +1,9 @@
+=== C1: Concat rule inter/intra (AS-IS) ===
+File: src/fairai/application/evaluate_icat.py
+
+L111-112: # concatenate_context=None → AS-IS defaults (inter True / intra False)
+L123-125: for kind in ("intersentence", "intrasentence"):
+            # AS-IS Thesis: inter=True (context [SEP] sentence), intra=False (filled sentence only)
+            concat = True if kind == "intersentence" else False
+
+CONFIRMED: intersentence concatenate_context=True, intrasentence concatenate_context=False (AS-IS default when concatenate_context=None).

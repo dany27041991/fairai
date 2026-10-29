@@ -1,0 +1,40 @@
+# Fair product-plane compare:
+# - VAN = released Optuna checkpoint (Table A weights: ~0.962 / 96.28 / 96.71)
+# - CE / −BPL = equal-budget Optuna winners (opta-*), 3 seeds
+# - Frozen LR = matched one-shot baseline (no Optuna)
+# Eval plane = leak-free select-options F1 + StereoSet subset=test iCAT
+name: suite_optuna_product
+device: cuda
+aggregate: true
+experiments:
+  - config: models/van_v2.yaml
+    run_id: released-van-v2
+    run_dir: artifacts/models/runs/released-van-v2
+  - config: experiments/optuna_fair_ce_best.yaml
+    run_id: opta-ce-s42
+    run_dir: artifacts/models/runs/opta-ce-s42
+  - config: experiments/optuna_fair_ce_best.yaml
+    run_id: opta-ce-s123
+    run_dir: artifacts/models/runs/opta-ce-s123
+  - config: experiments/optuna_fair_ce_best.yaml
+    run_id: opta-ce-s7
+    run_dir: artifacts/models/runs/opta-ce-s7
+  - config: experiments/optuna_fair_no_bpl_best.yaml
+    run_id: opta-no_bpl-s42
+    run_dir: artifacts/models/runs/opta-no_bpl-s42
+  - config: experiments/optuna_fair_no_bpl_best.yaml
+    run_id: opta-no_bpl-s123
+    run_dir: artifacts/models/runs/opta-no_bpl-s123
+  - config: experiments/optuna_fair_no_bpl_best.yaml
+    run_id: opta-no_bpl-s7
+    run_dir: artifacts/models/runs/opta-no_bpl-s7
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rigc-baseline_frozen_lr-s42
+    run_dir: artifacts/models/runs/rigc-baseline_frozen_lr-s42
+eval:
+  dataset: processed/stereoset/f1_test_leakfree.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+  eval_out_dir: results/metrics/eval_reports_opta_product
+out: results/metrics/optuna_product_compare.json

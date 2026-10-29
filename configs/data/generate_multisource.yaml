@@ -1,0 +1,12 @@
+name: generate_multisource
+generate:
+  # Local Thesis pools under DEVELOP/datasets (resolved vs cwd / fairai root)
+  sources: [winobias, toxigen, squad, tatoeba]
+  thesis_datasets_root: "../TESI MAGISTRALE/DEVELOP/datasets"
+  expand_synonyms: false
+  filter_leakage: true
+  filter_cola: false  # true → CoLA (downloads HF model)
+  max_samples: 128
+  max_per_source: 40
+  seed: 42
+  out: generated/smoke_multisource.jsonl

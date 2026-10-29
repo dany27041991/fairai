@@ -6,9 +6,8 @@ from pathlib import Path
 from typing import Any
 
 import torch
-from transformers import AutoTokenizer
 
-from fairai.infrastructure.torch_van.checkpoint import load_van_classifier
+from fairai.infrastructure.torch_van.checkpoint import load_van_and_tokenizer
 
 
 class VanOptionJudge:
@@ -22,12 +21,12 @@ class VanOptionJudge:
         device: str = "cpu",
         prefer_label: int = 2,
     ) -> None:
-        self.model, _thr, raw = load_van_classifier(checkpoint, config, device=device)
+        bundle = load_van_and_tokenizer(checkpoint, config, device=device)
+        self.model = bundle.model
         self.device = device
         self.prefer_label = prefer_label
-        backbone = str(raw.get("backbone", "sentence-transformers/all-MiniLM-L6-v2"))
-        self.max_len = int(raw.get("max_len", 512))
-        self.tokenizer = AutoTokenizer.from_pretrained(backbone)
+        self.max_len = bundle.max_len
+        self.tokenizer = bundle.tokenizer
 
     @torch.no_grad()
     def score_sentence(self, sentence: str) -> torch.Tensor:

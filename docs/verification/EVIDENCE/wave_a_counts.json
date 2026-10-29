@@ -1,0 +1,17 @@
+{
+  "van_train_leakage_safe.jsonl": {
+    "expected": 50409,
+    "actual": 50409,
+    "pass": true
+  },
+  "van_final.jsonl": {
+    "expected": 55817,
+    "actual": 55817,
+    "pass": true
+  },
+  "van_minimal_24k.jsonl": {
+    "expected": 24000,
+    "actual": 24000,
+    "pass": true
+  }
+}

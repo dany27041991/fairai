@@ -1,0 +1,37 @@
+=== line counts ===
+   50409 artifacts/datasets/processed/van_train_leakage_safe.jsonl
+   55817 artifacts/datasets/processed/van_final.jsonl
+   24000 artifacts/datasets/processed/van_minimal_24k.jsonl
+  130226 total
+=== presence ===
+OK artifacts/models/van/v2/final_model.pt
+OK artifacts/models/van/v2/best_trial_params.json
+OK artifacts/models/van/v2/best_threshold_params.json
+OK artifacts/results/gold_scores.json
+OK artifacts/datasets/splits/stereoset/intersentence_train.json
+OK artifacts/datasets/splits/stereoset/intersentence_test.json
+OK artifacts/datasets/splits/stereoset/intrasentence_train.json
+OK artifacts/datasets/splits/stereoset/intrasentence_test.json
+OK artifacts/datasets/raw/crows_pairs/crows_pairs_anonymized.csv
+OK artifacts/datasets/processed/stereoset/stereoset_select_options_pred.json
+=== manifest ===
+ok models/van/v2/final_model.pt
+ok models/van/v2/best_model.pt
+ok models/van/v2/best_trial_params.json
+ok models/van/v2/best_threshold_params.json
+ok models/van/v1/final_model.pt
+ok models/van/v1/best_model.pt
+ok models/van/v1/best_trial_params.json
+ok models/van/v1/best_threshold_params.json
+ok datasets/processed/van_train_leakage_safe.jsonl
+ok datasets/processed/van_final.jsonl
+ok datasets/processed/van_minimal_24k.jsonl
+ok results/gold_scores.json
+ok datasets/splits/stereoset/intersentence_train.json
+ok datasets/splits/stereoset/intersentence_test.json
+ok datasets/splits/stereoset/intrasentence_train.json
+ok datasets/splits/stereoset/intrasentence_test.json
+ok datasets/processed/stereoset/stereoset_select_options.json
+ok datasets/processed/stereoset/stereoset_select_options_pred.json
+ok datasets/processed/stereoset/stereoset_select_options_pred_reduced.json
+ok datasets/raw/crows_pairs/crows_pairs_anonymized.csv

@@ -1,0 +1,13 @@
+# E3 — canonical van_train_leakage_safe.jsonl unchanged by `fairai generate`
+
+Path: artifacts/datasets/processed/van_train_leakage_safe.jsonl
+
+## Before generate
+sha256: 312d04c898898f9fc059b99b2117baad5bbb9563e4bc52ba03d679642097fd0c
+mtime:  1748799057
+
+## After generate (env -u FAIRAI_DATA_DIR -u FAIRAI_MODEL_DIR, --max-samples 64)
+sha256: 312d04c898898f9fc059b99b2117baad5bbb9563e4bc52ba03d679642097fd0c
+mtime:  1748799057
+
+Result: PASS — hash and mtime identical; generate wrote only artifacts/datasets/generated/smoke_crows.jsonl.

@@ -1,0 +1,94 @@
+{
+  "source": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/results/metrics/unified_compare.json",
+  "n_families": 6,
+  "rows": [
+    {
+      "family": "released_van_v2",
+      "n_seeds": 1,
+      "eval_f1_macro_mean": 0.9621478253362311,
+      "eval_f1_macro_std": 0.0,
+      "avg_icat_mean": 96.49406778075056,
+      "avg_icat_std": 0.0,
+      "best_val_f1_macro_mean": NaN,
+      "best_val_f1_macro_std": NaN,
+      "run_dirs": [
+        "artifacts/models/runs/released-van-v2"
+      ]
+    },
+    {
+      "family": "rigorous_ablation_no_bpl",
+      "n_seeds": 3,
+      "eval_f1_macro_mean": 0.5901946334923635,
+      "eval_f1_macro_std": 0.009058577965866833,
+      "avg_icat_mean": 90.4348513965436,
+      "avg_icat_std": 0.9639205691188955,
+      "best_val_f1_macro_mean": 0.6326798582441828,
+      "best_val_f1_macro_std": 0.008765674873672203,
+      "run_dirs": [
+        "artifacts/models/runs/rig-ablation_no_bpl-s42",
+        "artifacts/models/runs/rig-ablation_no_bpl-s123",
+        "artifacts/models/runs/rig-ablation_no_bpl-s7"
+      ]
+    },
+    {
+      "family": "rigorous_ablation_no_cw",
+      "n_seeds": 3,
+      "eval_f1_macro_mean": 0.6377775668144761,
+      "eval_f1_macro_std": 0.007176536825645415,
+      "avg_icat_mean": 90.99137160535425,
+      "avg_icat_std": 3.36813132602685,
+      "best_val_f1_macro_mean": 0.6411881839177161,
+      "best_val_f1_macro_std": 0.008922603550185251,
+      "run_dirs": [
+        "artifacts/models/runs/rig-ablation_no_cw-s42",
+        "artifacts/models/runs/rig-ablation_no_cw-s123",
+        "artifacts/models/runs/rig-ablation_no_cw-s7"
+      ]
+    },
+    {
+      "family": "rigorous_baseline_ce",
+      "n_seeds": 3,
+      "eval_f1_macro_mean": 0.6218190307930824,
+      "eval_f1_macro_std": 0.04290966617004498,
+      "avg_icat_mean": 83.97466506862165,
+      "avg_icat_std": 7.3116789897809475,
+      "best_val_f1_macro_mean": 0.6655940729497082,
+      "best_val_f1_macro_std": 0.025341980509591466,
+      "run_dirs": [
+        "artifacts/models/runs/rig-baseline_ce-s42",
+        "artifacts/models/runs/rig-baseline_ce-s123",
+        "artifacts/models/runs/rig-baseline_ce-s7"
+      ]
+    },
+    {
+      "family": "rigorous_baseline_frozen_lr",
+      "n_seeds": 3,
+      "eval_f1_macro_mean": 0.5395576159849385,
+      "eval_f1_macro_std": 0.0,
+      "avg_icat_mean": 79.92635796730042,
+      "avg_icat_std": 0.0,
+      "best_val_f1_macro_mean": 0.6406306893141901,
+      "best_val_f1_macro_std": 0.0,
+      "run_dirs": [
+        "artifacts/models/runs/rig-baseline_frozen_lr-s42",
+        "artifacts/models/runs/rig-baseline_frozen_lr-s123",
+        "artifacts/models/runs/rig-baseline_frozen_lr-s7"
+      ]
+    },
+    {
+      "family": "rigorous_van_full",
+      "n_seeds": 3,
+      "eval_f1_macro_mean": 0.6284049340006977,
+      "eval_f1_macro_std": 0.01662094364028052,
+      "avg_icat_mean": 90.94960610643814,
+      "avg_icat_std": 2.1272712830255833,
+      "best_val_f1_macro_mean": 0.6449216866608062,
+      "best_val_f1_macro_std": 0.008556307118267157,
+      "run_dirs": [
+        "artifacts/models/runs/rig-van_full-s42",
+        "artifacts/models/runs/rig-van_full-s123",
+        "artifacts/models/runs/rig-van_full-s7"
+      ]
+    }
+  ]
+}

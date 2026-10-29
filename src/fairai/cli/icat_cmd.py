@@ -7,6 +7,9 @@ from pathlib import Path
 
 import typer
 
+from fairai.cli.json_io import echo_json, write_and_echo
+from fairai.infrastructure.torch_van.checkpointing import write_json
+
 icat_app = typer.Typer(help="StereoSet LM/SS/ICAT evaluation.")
 
 
@@ -35,16 +38,33 @@ def icat_default(
     write_baseline: bool = typer.Option(
         False, "--write-baseline", help="Write this run as baseline JSON"
     ),
+    write_gold: Path | None = typer.Option(
+        None,
+        "--write-gold",
+        help="Thesis gold_scores.json path (P(gold_label) per sentence id).",
+    ),
 ) -> None:
     """Run ICAT on StereoSet splits (default command)."""
     if ctx.invoked_subcommand is not None:
         return
-    from fairai.application.evaluate_icat import evaluate_icat
+    from fairai.application.evaluate_icat import evaluate_icat, write_gold_scores_json
     from fairai.application.parity import check_parity, parity_ok
 
     if subset not in {"train", "test", "all"}:
         typer.secho("subset must be train|test|all", fg=typer.colors.RED)
         raise typer.Exit(1)
+
+    if write_gold is not None:
+        path = write_gold_scores_json(
+            checkpoint_path=checkpoint,
+            config_path=config,
+            splits_dir=splits_dir,
+            out_path=write_gold,
+            subset=subset,
+            device=device,
+            batch_size=batch_size,
+        )
+        typer.echo(f"wrote gold scores {path}")
 
     report = evaluate_icat(
         checkpoint_path=checkpoint,
@@ -56,18 +76,16 @@ def icat_default(
         concatenate_context=False if force_no_context else None,
     )
     payload = report.to_dict()
-    typer.echo(json.dumps(payload, indent=2))
-
     if out is not None:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        write_and_echo(payload, out=out)
         typer.echo(f"wrote {out}")
+    else:
+        echo_json(payload)
 
     baseline_path = baseline
     if write_baseline:
         target = baseline_path or Path("artifacts/results/metrics/baseline_van_v2_icat.json")
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        write_json(target, payload)
         typer.echo(f"baseline written {target}")
         baseline_path = None
 

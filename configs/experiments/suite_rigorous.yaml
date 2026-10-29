@@ -1,0 +1,64 @@
+# Scientifically matched ablation suite:
+# - fixed train/val split (seed 42)
+# - neural models: early-stop on WHM(F1, iCAT_train) — not StereoSet test
+# - reported iCAT: StereoSet subset=test (aligned with Table A)
+# - one factor ablations + two baselines
+# - 3 init seeds → mean±std
+name: suite_rigorous
+device: cuda
+aggregate: true
+experiments:
+  # --- seed 42 ---
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s42
+    seed: 42
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s42
+    seed: 42
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s42
+    seed: 42
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s42
+    seed: 42
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s42
+    seed: 42
+  # --- seed 123 ---
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s123
+    seed: 123
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s123
+    seed: 123
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s123
+    seed: 123
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s123
+    seed: 123
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s123
+    seed: 123
+  # --- seed 7 ---
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s7
+    seed: 7
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s7
+    seed: 7
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s7
+    seed: 7
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s7
+    seed: 7
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s7
+    seed: 7
+eval:
+  dataset: processed/van_split_seed42_val.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+out: results/metrics/rigorous_ablation_compare.json

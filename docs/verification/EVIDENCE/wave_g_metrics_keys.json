@@ -1,0 +1,30 @@
+{
+  "required_keys": [
+    "run_id",
+    "best_val_f1_macro",
+    "history",
+    "n_train"
+  ],
+  "files_checked": 1,
+  "all_pass": true,
+  "runs": [
+    {
+      "path": "artifacts/models/runs/smoke-m2/metrics.json",
+      "run_id": "smoke-m2",
+      "has_required_keys": true,
+      "missing": [],
+      "present_keys": [
+        "best_val_f1_macro",
+        "config",
+        "dataset",
+        "device",
+        "epochs_ran",
+        "history",
+        "n_train",
+        "n_val",
+        "run_id",
+        "thresholds"
+      ]
+    }
+  ]
+}

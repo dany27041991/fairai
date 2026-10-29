@@ -1,0 +1,21 @@
+# CPU smoke suite: train tiny baselines/ablations then compare metrics
+name: suite_smoke
+device: cpu
+train_max_samples: 128
+experiments:
+  - config: experiments/baseline_ce_smoke.yaml
+    run_id: suite-baseline-ce
+  - config: experiments/ablation_no_bias_proj_smoke.yaml
+    run_id: suite-ablation-nobpl
+  - config: experiments/ablation_no_class_weights_smoke.yaml
+    run_id: suite-ablation-nocw
+  - config: experiments/baseline_frozen_lr_smoke.yaml
+    run_id: suite-frozen-lr
+eval:
+  # F1 on same smoke corpus; StereoSet optional if artifacts present
+  dataset: processed/van_minimal_24k.jsonl
+  max_samples: 128
+  batch_size: 16
+  subset: all
+  stereoset_splits: splits/stereoset
+out: results/metrics/suite_smoke_compare.json

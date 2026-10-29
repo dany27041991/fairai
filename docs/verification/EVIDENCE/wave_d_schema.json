@@ -1,0 +1,9 @@
+{
+  "check": "D1_D2",
+  "file": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/processed/van_train_leakage_safe.jsonl",
+  "sample_size": 500,
+  "lines_validated": 500,
+  "invalid_count": 0,
+  "invalid_samples": [],
+  "pass": true
+}

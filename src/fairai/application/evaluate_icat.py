@@ -6,9 +6,10 @@ from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
+from typing import Any
+
 import torch
 from torch.utils.data import DataLoader, Dataset
-from transformers import AutoTokenizer
 
 from fairai.domain.icat import IcatBundle, bundle_from_probs
 from fairai.infrastructure.data.stereoset_flatten import (
@@ -16,7 +17,7 @@ from fairai.infrastructure.data.stereoset_flatten import (
     flatten_split_file,
     resolve_split_paths,
 )
-from fairai.infrastructure.torch_van.checkpoint import load_van_classifier
+from fairai.infrastructure.torch_van.checkpoint import load_van_and_tokenizer
 
 
 @dataclass(slots=True)
@@ -25,6 +26,8 @@ class IcatReport:
     intrasentence: IcatBundle | None
     avg_icat: float | None
     by_bias_type: dict[str, dict]
+    by_bias_type_intersentence: dict[str, dict]
+    by_bias_type_intrasentence: dict[str, dict]
     n_total: int
     subset: str
     concatenate_context: bool
@@ -34,7 +37,10 @@ class IcatReport:
             "intersentence": self.intersentence.to_dict() if self.intersentence else None,
             "intrasentence": self.intrasentence.to_dict() if self.intrasentence else None,
             "avg_icat": self.avg_icat,
+            # Pooled across splits (baseline / docs); Thesis also prints per-split below.
             "by_bias_type": self.by_bias_type,
+            "by_bias_type_intersentence": self.by_bias_type_intersentence,
+            "by_bias_type_intrasentence": self.by_bias_type_intrasentence,
             "n_total": self.n_total,
             "subset": self.subset,
             "concatenate_context": self.concatenate_context,
@@ -43,7 +49,7 @@ class IcatReport:
 
 class _FlatDataset(Dataset):
     def __init__(
-        self, examples: list[FlatStereoExample], tokenizer: AutoTokenizer, max_len: int
+        self, examples: list[FlatStereoExample], tokenizer: Any, max_len: int
     ) -> None:
         texts = [ex.sentence for ex in examples]
         enc = tokenizer(
@@ -71,7 +77,7 @@ class _FlatDataset(Dataset):
 def _collect_probs(
     model: torch.nn.Module,
     examples: list[FlatStereoExample],
-    tokenizer: AutoTokenizer,
+    tokenizer: Any,
     *,
     device: str,
     max_len: int,
@@ -110,14 +116,16 @@ def evaluate_icat(
 ) -> IcatReport:
     # concatenate_context=None → AS-IS defaults (inter True / intra False)
     # False → force no concat for both; True → force concat for both
-    model, _, raw = load_van_classifier(checkpoint_path, config_path, device=device)
-    backbone = str(raw.get("backbone", "sentence-transformers/all-MiniLM-L6-v2"))
-    max_len = int(raw.get("max_len", 512))
-    tokenizer = AutoTokenizer.from_pretrained(backbone)
+    bundle = load_van_and_tokenizer(checkpoint_path, config_path, device=device)
+    model, tokenizer, max_len = bundle.model, bundle.tokenizer, bundle.max_len
     sep = tokenizer.sep_token or "[SEP]"
 
     bundles: dict[str, IcatBundle] = {}
     bias_rows: dict[str, list[tuple[float, float, float]]] = defaultdict(list)
+    bias_rows_by_kind: dict[str, dict[str, list[tuple[float, float, float]]]] = {
+        "intersentence": defaultdict(list),
+        "intrasentence": defaultdict(list),
+    }
     n_total = 0
 
     for kind in ("intersentence", "intrasentence"):
@@ -146,6 +154,7 @@ def evaluate_icat(
         if report_bias_types:
             for ex, row in zip(examples, probs, strict=True):
                 bias_rows[ex.bias_type].append(row)
+                bias_rows_by_kind[kind][ex.bias_type].append(row)
 
     inter = bundles.get("intersentence")
     intra = bundles.get("intrasentence")
@@ -161,18 +170,71 @@ def evaluate_icat(
         bias: bundle_from_probs(rows).to_dict()
         for bias, rows in sorted(bias_rows.items())
     }
+    by_bias_inter = {
+        bias: bundle_from_probs(rows).to_dict()
+        for bias, rows in sorted(bias_rows_by_kind["intersentence"].items())
+    }
+    by_bias_intra = {
+        bias: bundle_from_probs(rows).to_dict()
+        for bias, rows in sorted(bias_rows_by_kind["intrasentence"].items())
+    }
+    if not report_bias_types:
+        by_bias, by_bias_inter, by_bias_intra = {}, {}, {}
 
     return IcatReport(
         intersentence=inter,
         intrasentence=intra,
         avg_icat=avg,
-        by_bias_type=by_bias if report_bias_types else {},
+        by_bias_type=by_bias,
+        by_bias_type_intersentence=by_bias_inter,
+        by_bias_type_intrasentence=by_bias_intra,
         n_total=n_total,
         subset=subset,
         concatenate_context=(
             False if concatenate_context is False else True  # True means AS-IS defaults used
         ),
     )
+
+
+def write_gold_scores_json(
+    *,
+    checkpoint_path: Path,
+    config_path: Path,
+    splits_dir: Path,
+    out_path: Path,
+    subset: str = "all",
+    device: str = "cpu",
+    batch_size: int = 32,
+) -> Path:
+    """Thesis cell-3 main: write ``gold_scores.json`` with inter + intra lists."""
+    inter = generate_gold_score_entries(
+        checkpoint_path=checkpoint_path,
+        config_path=config_path,
+        splits_dir=splits_dir,
+        kind="intersentence",
+        subset=subset,
+        device=device,
+        batch_size=batch_size,
+        concatenate_context=True,
+    )
+    intra = generate_gold_score_entries(
+        checkpoint_path=checkpoint_path,
+        config_path=config_path,
+        splits_dir=splits_dir,
+        kind="intrasentence",
+        subset=subset,
+        device=device,
+        batch_size=batch_size,
+        concatenate_context=False,
+    )
+    import json
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(
+        json.dumps({"intersentence": inter, "intrasentence": intra}, indent=4) + "\n",
+        encoding="utf-8",
+    )
+    return out_path
 
 
 def generate_gold_score_entries(
@@ -187,10 +249,8 @@ def generate_gold_score_entries(
     concatenate_context: bool = True,
 ) -> list[dict]:
     """Reproduce AS-IS gold_scores entries: P(model)[gold_label] per sentence id."""
-    model, _, raw = load_van_classifier(checkpoint_path, config_path, device=device)
-    backbone = str(raw.get("backbone", "sentence-transformers/all-MiniLM-L6-v2"))
-    max_len = int(raw.get("max_len", 512))
-    tokenizer = AutoTokenizer.from_pretrained(backbone)
+    bundle = load_van_and_tokenizer(checkpoint_path, config_path, device=device)
+    model, tokenizer, max_len = bundle.model, bundle.tokenizer, bundle.max_len
     sep = tokenizer.sep_token or "[SEP]"
 
     paths = resolve_split_paths(splits_dir, kind=kind, subset=subset)

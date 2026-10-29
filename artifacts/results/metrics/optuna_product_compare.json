@@ -1,0 +1,733 @@
+{
+  "n": 8,
+  "rows": [
+    {
+      "run_dir": "artifacts/models/runs/released-van-v2",
+      "kind": "van",
+      "experiment": "released_van_v2",
+      "ablation": {
+        "use_bias_projection": true,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": null,
+      "eval_f1_macro": 0.9621627400798279,
+      "eval_accuracy": 0.9622222222222222,
+      "avg_icat": 96.49406778075056,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.974320987654321,
+          "accuracy": 0.9743589743589743
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.9523657628920787,
+          "accuracy": 0.9523809523809523
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.965748675956358,
+          "accuracy": 0.9658119658119658
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 1.0,
+          "accuracy": 1.0
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 98.63013698630137,
+          "ss": 43.83561643835616,
+          "icat": 86.47025708388064,
+          "n": 219
+        },
+        "profession": {
+          "lm": 98.92904953145917,
+          "ss": 48.59437751004016,
+          "icat": 96.14791159282377,
+          "n": 747
+        },
+        "race": {
+          "lm": 97.95221843003414,
+          "ss": 49.48805460750853,
+          "icat": 96.94929469184265,
+          "n": 879
+        },
+        "religion": {
+          "lm": 97.22222222222221,
+          "ss": 61.111111111111114,
+          "icat": 75.61728395061726,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 96.96969696969697,
+          "ss": 44.15584415584416,
+          "icat": 85.63557654466746,
+          "n": 231
+        },
+        "profession": {
+          "lm": 97.53086419753086,
+          "ss": 49.519890260631,
+          "icat": 96.59435384172467,
+          "n": 729
+        },
+        "race": {
+          "lm": 98.84659746251442,
+          "ss": 53.63321799307958,
+          "icat": 91.66397273340438,
+          "n": 867
+        },
+        "religion": {
+          "lm": 98.61111111111111,
+          "ss": 48.61111111111111,
+          "icat": 95.87191358024691,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-ce-s42",
+      "kind": "van",
+      "experiment": "optuna_fair_ce_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "ce",
+        "use_class_weights": false,
+        "weighted_sampler": false,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.9374704523120609,
+      "eval_f1_macro": 0.740994362446248,
+      "eval_accuracy": 0.7422222222222222,
+      "avg_icat": 92.49845834152029,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.772991452991453,
+          "accuracy": 0.7692307692307693
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.7470528549465225,
+          "accuracy": 0.75
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.7263540798971276,
+          "accuracy": 0.7264957264957265
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.8857142857142857,
+          "accuracy": 0.8888888888888888
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 97.71689497716895,
+          "ss": 40.182648401826484,
+          "icat": 78.53047267571569,
+          "n": 219
+        },
+        "profession": {
+          "lm": 95.44846050870147,
+          "ss": 48.32663989290496,
+          "icat": 92.25406758672351,
+          "n": 747
+        },
+        "race": {
+          "lm": 94.53924914675767,
+          "ss": 46.64391353811149,
+          "icat": 88.19361126318691,
+          "n": 879
+        },
+        "religion": {
+          "lm": 95.83333333333334,
+          "ss": 36.11111111111111,
+          "icat": 69.21296296296296,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 97.40259740259741,
+          "ss": 53.67965367965368,
+          "icat": 90.23444088379154,
+          "n": 231
+        },
+        "profession": {
+          "lm": 97.94238683127571,
+          "ss": 47.46227709190672,
+          "icat": 92.97137405657448,
+          "n": 729
+        },
+        "race": {
+          "lm": 96.07843137254902,
+          "ss": 51.903114186851205,
+          "icat": 92.42146685663886,
+          "n": 867
+        },
+        "religion": {
+          "lm": 98.61111111111111,
+          "ss": 41.66666666666667,
+          "icat": 82.17592592592594,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-ce-s123",
+      "kind": "van",
+      "experiment": "optuna_fair_ce_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "ce",
+        "use_class_weights": false,
+        "weighted_sampler": false,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.9222424662307134,
+      "eval_f1_macro": 0.7470334192180598,
+      "eval_accuracy": 0.7511111111111111,
+      "avg_icat": 85.23504366757496,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.6661728395061729,
+          "accuracy": 0.6666666666666666
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.7251550192726665,
+          "accuracy": 0.7321428571428571
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.7717231920777546,
+          "accuracy": 0.7735042735042735
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.8857142857142857,
+          "accuracy": 0.8888888888888888
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 95.8904109589041,
+          "ss": 43.37899543378995,
+          "icat": 83.19259398261086,
+          "n": 219
+        },
+        "profession": {
+          "lm": 95.18072289156626,
+          "ss": 41.365461847389554,
+          "icat": 78.74389122756084,
+          "n": 747
+        },
+        "race": {
+          "lm": 93.85665529010238,
+          "ss": 44.141069397042095,
+          "icat": 82.85866269069334,
+          "n": 879
+        },
+        "religion": {
+          "lm": 95.83333333333334,
+          "ss": 40.27777777777778,
+          "icat": 77.19907407407409,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 96.53679653679653,
+          "ss": 48.05194805194805,
+          "icat": 92.7756226457525,
+          "n": 231
+        },
+        "profession": {
+          "lm": 98.76543209876543,
+          "ss": 43.62139917695473,
+          "icat": 86.1657267692933,
+          "n": 729
+        },
+        "race": {
+          "lm": 99.30795847750865,
+          "ss": 45.79008073817762,
+          "icat": 90.94638873257423,
+          "n": 867
+        },
+        "religion": {
+          "lm": 100.0,
+          "ss": 45.83333333333333,
+          "icat": 91.66666666666666,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-ce-s7",
+      "kind": "van",
+      "experiment": "optuna_fair_ce_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "ce",
+        "use_class_weights": false,
+        "weighted_sampler": false,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.9433378474731953,
+      "eval_f1_macro": 0.7514525976950394,
+      "eval_accuracy": 0.7511111111111111,
+      "avg_icat": 97.03311993242727,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.6427053140096618,
+          "accuracy": 0.6410256410256411
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.7591313377579123,
+          "accuracy": 0.7619047619047619
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.762597228465526,
+          "accuracy": 0.7606837606837606
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.7777777777777777,
+          "accuracy": 0.7777777777777778
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 98.63013698630137,
+          "ss": 47.48858447488584,
+          "icat": 93.6761118408707,
+          "n": 219
+        },
+        "profession": {
+          "lm": 97.85809906291834,
+          "ss": 49.129852744310575,
+          "icat": 96.15507993598669,
+          "n": 747
+        },
+        "race": {
+          "lm": 97.49715585893061,
+          "ss": 51.64960182025028,
+          "icat": 94.28052614344826,
+          "n": 879
+        },
+        "religion": {
+          "lm": 98.61111111111111,
+          "ss": 58.333333333333336,
+          "icat": 82.17592592592592,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 96.53679653679653,
+          "ss": 51.515151515151516,
+          "icat": 93.61143906598451,
+          "n": 231
+        },
+        "profession": {
+          "lm": 98.76543209876543,
+          "ss": 49.24554183813443,
+          "icat": 97.27514437162355,
+          "n": 729
+        },
+        "race": {
+          "lm": 98.6159169550173,
+          "ss": 51.21107266435986,
+          "icat": 96.22729612911722,
+          "n": 867
+        },
+        "religion": {
+          "lm": 98.61111111111111,
+          "ss": 55.55555555555556,
+          "icat": 87.65432098765432,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-no_bpl-s42",
+      "kind": "van",
+      "experiment": "optuna_fair_no_bpl_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.6497170375599901,
+      "eval_f1_macro": 0.6206782779734145,
+      "eval_accuracy": 0.6288888888888889,
+      "avg_icat": 71.59095528076638,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.5584415584415584,
+          "accuracy": 0.5641025641025641
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.6264291505279244,
+          "accuracy": 0.6488095238095238
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.6263656906036998,
+          "accuracy": 0.6282051282051282
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.5555555555555555,
+          "accuracy": 0.5555555555555556
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 97.71689497716895,
+          "ss": 71.23287671232876,
+          "icat": 56.220679301932826,
+          "n": 219
+        },
+        "profession": {
+          "lm": 97.59036144578313,
+          "ss": 77.37617135207496,
+          "icat": 44.15735230076935,
+          "n": 747
+        },
+        "race": {
+          "lm": 94.65301478953356,
+          "ss": 66.66666666666666,
+          "icat": 63.102009859689055,
+          "n": 879
+        },
+        "religion": {
+          "lm": 95.83333333333334,
+          "ss": 30.555555555555557,
+          "icat": 58.564814814814824,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 92.20779220779221,
+          "ss": 56.27705627705628,
+          "icat": 80.63192219036374,
+          "n": 231
+        },
+        "profession": {
+          "lm": 98.079561042524,
+          "ss": 67.07818930041152,
+          "icat": 64.57913484281416,
+          "n": 729
+        },
+        "race": {
+          "lm": 98.0392156862745,
+          "ss": 48.55824682814302,
+          "icat": 95.21224868263337,
+          "n": 867
+        },
+        "religion": {
+          "lm": 97.22222222222221,
+          "ss": 34.72222222222222,
+          "icat": 67.51543209876543,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-no_bpl-s123",
+      "kind": "van",
+      "experiment": "optuna_fair_no_bpl_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.9376297908580854,
+      "eval_f1_macro": 0.7459972386519352,
+      "eval_accuracy": 0.7488888888888889,
+      "avg_icat": 90.10342797437681,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.6621689155422289,
+          "accuracy": 0.6666666666666666
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.7456394098595934,
+          "accuracy": 0.75
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.754355132930909,
+          "accuracy": 0.7564102564102564
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.8857142857142857,
+          "accuracy": 0.8888888888888888
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 97.26027397260275,
+          "ss": 42.465753424657535,
+          "icat": 82.60461625070371,
+          "n": 219
+        },
+        "profession": {
+          "lm": 97.32262382864792,
+          "ss": 44.310575635876845,
+          "icat": 86.24842968482587,
+          "n": 747
+        },
+        "race": {
+          "lm": 94.3117178612059,
+          "ss": 48.35039817974972,
+          "icat": 91.20018223211038,
+          "n": 879
+        },
+        "religion": {
+          "lm": 98.61111111111111,
+          "ss": 55.55555555555556,
+          "icat": 87.65432098765432,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 96.53679653679653,
+          "ss": 42.857142857142854,
+          "icat": 82.74582560296845,
+          "n": 231
+        },
+        "profession": {
+          "lm": 99.45130315500685,
+          "ss": 43.75857338820302,
+          "icat": 87.03694295321588,
+          "n": 729
+        },
+        "race": {
+          "lm": 99.07727797001154,
+          "ss": 48.32756632064591,
+          "icat": 95.76327443929605,
+          "n": 867
+        },
+        "religion": {
+          "lm": 100.0,
+          "ss": 52.77777777777778,
+          "icat": 94.44444444444444,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/opta-no_bpl-s7",
+      "kind": "van",
+      "experiment": "optuna_fair_no_bpl_best",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "bias_aware",
+        "use_class_weights": true,
+        "weighted_sampler": true,
+        "freeze_backbone": false
+      },
+      "best_val_f1_macro": 0.635900100921476,
+      "eval_f1_macro": 0.6326798313495584,
+      "eval_accuracy": 0.6244444444444445,
+      "avg_icat": 94.3891431400859,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.6007869721053453,
+          "accuracy": 0.5897435897435898
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.6253968253968254,
+          "accuracy": 0.625
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.623323493955419,
+          "accuracy": 0.6282051282051282
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.6793650793650793,
+          "accuracy": 0.6666666666666666
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 97.71689497716895,
+          "ss": 68.94977168949772,
+          "icat": 60.68263797668938,
+          "n": 219
+        },
+        "profession": {
+          "lm": 98.39357429718876,
+          "ss": 66.53279785809906,
+          "icat": 65.85915280936331,
+          "n": 747
+        },
+        "race": {
+          "lm": 96.70079635949944,
+          "ss": 39.249146757679185,
+          "icat": 75.90847495796885,
+          "n": 879
+        },
+        "religion": {
+          "lm": 95.83333333333334,
+          "ss": 36.11111111111111,
+          "icat": 69.21296296296296,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 93.93939393939394,
+          "ss": 51.515151515151516,
+          "icat": 91.09274563820018,
+          "n": 231
+        },
+        "profession": {
+          "lm": 99.31412894375858,
+          "ss": 59.807956104252405,
+          "icat": 79.83275659950964,
+          "n": 729
+        },
+        "race": {
+          "lm": 98.38523644752019,
+          "ss": 42.09919261822376,
+          "icat": 82.83878039987283,
+          "n": 867
+        },
+        "religion": {
+          "lm": 97.22222222222221,
+          "ss": 31.944444444444443,
+          "icat": 62.11419753086419,
+          "n": 72
+        }
+      }
+    },
+    {
+      "run_dir": "artifacts/models/runs/rigc-baseline_frozen_lr-s42",
+      "kind": "frozen_lr",
+      "experiment": "rigorous_baseline_frozen_lr",
+      "ablation": {
+        "use_bias_projection": false,
+        "loss_kind": "logistic",
+        "use_class_weights": true,
+        "weighted_sampler": false,
+        "freeze_backbone": true
+      },
+      "best_val_f1_macro": 0.6406306893141901,
+      "eval_f1_macro": 0.5406525698499921,
+      "eval_accuracy": 0.5466666666666666,
+      "avg_icat": 79.92635796730042,
+      "icat_subset": "test",
+      "by_bias_type_f1": {
+        "gender": {
+          "n": 39,
+          "f1_macro": 0.43371212121212127,
+          "accuracy": 0.46153846153846156
+        },
+        "profession": {
+          "n": 168,
+          "f1_macro": 0.5048048048048047,
+          "accuracy": 0.5119047619047619
+        },
+        "race": {
+          "n": 234,
+          "f1_macro": 0.5783258251583138,
+          "accuracy": 0.5811965811965812
+        },
+        "religion": {
+          "n": 9,
+          "f1_macro": 0.65,
+          "accuracy": 0.6666666666666666
+        }
+      },
+      "by_bias_type_icat_inter": {
+        "gender": {
+          "lm": 76.25570776255708,
+          "ss": 56.16438356164384,
+          "icat": 66.85431913429662,
+          "n": 219
+        },
+        "profession": {
+          "lm": 86.34538152610442,
+          "ss": 45.51539491298527,
+          "icat": 78.60088278146051,
+          "n": 747
+        },
+        "race": {
+          "lm": 78.9533560864619,
+          "ss": 51.19453924914675,
+          "icat": 77.06709843251913,
+          "n": 879
+        },
+        "religion": {
+          "lm": 79.16666666666666,
+          "ss": 59.72222222222222,
+          "icat": 63.773148148148145,
+          "n": 72
+        }
+      },
+      "by_bias_type_icat_intra": {
+        "gender": {
+          "lm": 78.78787878787878,
+          "ss": 56.709956709956714,
+          "icat": 68.2146136691591,
+          "n": 231
+        },
+        "profession": {
+          "lm": 87.24279835390946,
+          "ss": 47.73662551440329,
+          "icat": 83.29353587698353,
+          "n": 729
+        },
+        "race": {
+          "lm": 86.04382929642446,
+          "ss": 57.67012687427913,
+          "icat": 72.84448754737664,
+          "n": 867
+        },
+        "religion": {
+          "lm": 80.55555555555556,
+          "ss": 65.27777777777779,
+          "icat": 55.94135802469135,
+          "n": 72
+        }
+      }
+    }
+  ]
+}

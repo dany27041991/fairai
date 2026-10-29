@@ -13,7 +13,6 @@ architecture:
   bias_num_layers: 1
   bias_dropout: 0.1
   bias_lambda: 1.0
-  adversarial_enabled: false
 train:
   dataset: processed/van_minimal_24k.jsonl
   max_samples: 256

@@ -1,0 +1,22 @@
+# Optuna for baselines under the SAME policy used for the released VAN:
+# - Corpus lineage: van_final.jsonl → drop StereoSet-test exact matches
+#   → van_train_leakage_safe.jsonl → stratified 90/10 seed 42 splits
+# - Full train/val (no max_samples subsample)
+# - TPE + MedianPruner, WHM(val F1, StereoSet-train iCAT), f1_weight 1.88
+# - Trial loop: up to 100 epochs, patience 5 (matches VAN early-stop recipe)
+# VAN product row stays the released checkpoint (not re-searched here).
+name: optuna_vanpolicy_base
+inherits: experiments/rigorous_base.yaml
+device: cuda
+train:
+  dataset: processed/van_train_leakage_safe.jsonl
+  dataset_train: processed/van_split_seed42_train.jsonl
+  dataset_val: processed/van_split_seed42_val.jsonl
+  epochs: 100
+  patience: 5
+  amp: true
+  selection_metric: combined
+  f1_weight: 1.88
+  icat_every: 2
+  icat_subset: train
+  stereoset_splits: splits/stereoset

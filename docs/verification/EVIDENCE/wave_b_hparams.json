@@ -1,0 +1,39 @@
+{
+  "check": "B2_arch_yaml_vs_best_trial_params",
+  "sources": {
+    "trial": "artifacts/models/van/v2/best_trial_params.json",
+    "yaml": "configs/models/van_v2.yaml"
+  },
+  "fields_compared": 23,
+  "matches": 23,
+  "mismatches": 0,
+  "pass": true,
+  "mismatch_details": {},
+  "extra_in_trial_only": [],
+  "extra_in_yaml_only": [],
+  "matched_keys": [
+    "alpha",
+    "att_dropout",
+    "bias_dim",
+    "bias_dropout",
+    "bias_lambda",
+    "bias_num_layers",
+    "clip_factor",
+    "ema_decay",
+    "gamma",
+    "gen_dropout",
+    "gen_dropout_reg",
+    "gen_hidden_size",
+    "gen_num_layers",
+    "label_smoothing",
+    "learning_rate",
+    "lr_multiplier",
+    "multihead_num_heads",
+    "penalty_anti",
+    "penalty_neutral",
+    "penalty_stereo",
+    "scheduler",
+    "warmup_pct",
+    "weight_decay"
+  ]
+}

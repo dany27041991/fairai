@@ -1,0 +1,10 @@
+name: rigorous_ablation_no_cw
+inherits: experiments/rigorous_base.yaml
+experiment_kind: van
+loss:
+  use_class_weights: false
+  penalty_stereo: 1.0
+  penalty_anti: 1.0
+  penalty_neutral: 1.0
+train:
+  weighted_sampler: false

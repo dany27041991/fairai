@@ -1,0 +1,142 @@
+{
+  "n": 15,
+  "icat_subset": "test",
+  "note": "Re-eval of existing rigorous checkpoints; val F1 + StereoSet subset=test iCAT. Checkpoints were originally selected with WHM peeking StereoSet-test iCAT (historical). Future trains use icat_subset=train.",
+  "rows": [
+    {
+      "run_id": "rig-ablation_no_bpl-s123",
+      "family": "rigorous_ablation_no_bpl",
+      "eval_f1_macro": 0.6376129799031208,
+      "avg_icat": 89.57323905761842,
+      "best_val_f1_macro": 0.6376129799031208,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-ablation_no_bpl-s42",
+      "family": "rigorous_ablation_no_bpl",
+      "eval_f1_macro": 0.6378674001717007,
+      "avg_icat": 90.25544367184335,
+      "best_val_f1_macro": 0.6378674001717007,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-ablation_no_bpl-s7",
+      "family": "rigorous_ablation_no_bpl",
+      "eval_f1_macro": 0.6225591946577268,
+      "avg_icat": 91.47587146016906,
+      "best_val_f1_macro": 0.6225591946577268,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-ablation_no_cw-s123",
+      "family": "rigorous_ablation_no_cw",
+      "eval_f1_macro": 0.641367116060014,
+      "avg_icat": 91.20465469365696,
+      "best_val_f1_macro": 0.641367116060014,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-ablation_no_cw-s42",
+      "family": "rigorous_ablation_no_cw",
+      "eval_f1_macro": 0.6500199756939852,
+      "avg_icat": 87.52166726480041,
+      "best_val_f1_macro": 0.6500199756939852,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-ablation_no_cw-s7",
+      "family": "rigorous_ablation_no_cw",
+      "eval_f1_macro": 0.6321774599991491,
+      "avg_icat": 94.24779285760536,
+      "best_val_f1_macro": 0.6321774599991491,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_ce-s123",
+      "family": "rigorous_baseline_ce",
+      "eval_f1_macro": 0.6452547102952859,
+      "avg_icat": 86.51858240963182,
+      "best_val_f1_macro": 0.6452547102952859,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_ce-s42",
+      "family": "rigorous_baseline_ce",
+      "eval_f1_macro": 0.6939832142375613,
+      "avg_icat": 89.67457939403272,
+      "best_val_f1_macro": 0.6939832142375613,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_ce-s7",
+      "family": "rigorous_baseline_ce",
+      "eval_f1_macro": 0.6575442943162776,
+      "avg_icat": 75.7308334022004,
+      "best_val_f1_macro": 0.6575442943162776,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_frozen_lr-s123",
+      "family": "rigorous_baseline_frozen_lr",
+      "eval_f1_macro": 0.6406306893141901,
+      "avg_icat": 79.92635796730042,
+      "best_val_f1_macro": 0.6406306893141901,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_frozen_lr-s42",
+      "family": "rigorous_baseline_frozen_lr",
+      "eval_f1_macro": 0.6406306893141901,
+      "avg_icat": 79.92635796730042,
+      "best_val_f1_macro": 0.6406306893141901,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-baseline_frozen_lr-s7",
+      "family": "rigorous_baseline_frozen_lr",
+      "eval_f1_macro": 0.6406306893141901,
+      "avg_icat": 79.92635796730042,
+      "best_val_f1_macro": 0.6406306893141901,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-van_full-s123",
+      "family": "rigorous_van_full",
+      "eval_f1_macro": 0.6547095112302065,
+      "avg_icat": 90.21080216452876,
+      "best_val_f1_macro": 0.6547095112302065,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-van_full-s42",
+      "family": "rigorous_van_full",
+      "eval_f1_macro": 0.6411936470754573,
+      "avg_icat": 89.29023759674462,
+      "best_val_f1_macro": 0.6411936470754573,
+      "icat_subset": "test",
+      "n_icat": 3816
+    },
+    {
+      "run_id": "rig-van_full-s7",
+      "family": "rigorous_van_full",
+      "eval_f1_macro": 0.6388619016767548,
+      "avg_icat": 93.34777855804109,
+      "best_val_f1_macro": 0.6388619016767548,
+      "icat_subset": "test",
+      "n_icat": 3816
+    }
+  ]
+}

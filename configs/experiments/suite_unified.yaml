@@ -1,0 +1,62 @@
+# Unified paper protocol: leak-free select-options F1 + StereoSet iCAT test.
+# Skip train: reuse rigorous + released checkpoints; re-eval only.
+name: suite_unified
+device: cuda
+aggregate: true
+skip_train_default: true
+experiments:
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s42
+    run_dir: artifacts/models/runs/rig-van_full-s42
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s123
+    run_dir: artifacts/models/runs/rig-van_full-s123
+  - config: experiments/rigorous_van_full.yaml
+    run_id: rig-van_full-s7
+    run_dir: artifacts/models/runs/rig-van_full-s7
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s42
+    run_dir: artifacts/models/runs/rig-ablation_no_bpl-s42
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s123
+    run_dir: artifacts/models/runs/rig-ablation_no_bpl-s123
+  - config: experiments/rigorous_ablation_no_bpl.yaml
+    run_id: rig-ablation_no_bpl-s7
+    run_dir: artifacts/models/runs/rig-ablation_no_bpl-s7
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s42
+    run_dir: artifacts/models/runs/rig-ablation_no_cw-s42
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s123
+    run_dir: artifacts/models/runs/rig-ablation_no_cw-s123
+  - config: experiments/rigorous_ablation_no_cw.yaml
+    run_id: rig-ablation_no_cw-s7
+    run_dir: artifacts/models/runs/rig-ablation_no_cw-s7
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s42
+    run_dir: artifacts/models/runs/rig-baseline_ce-s42
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s123
+    run_dir: artifacts/models/runs/rig-baseline_ce-s123
+  - config: experiments/rigorous_baseline_ce.yaml
+    run_id: rig-baseline_ce-s7
+    run_dir: artifacts/models/runs/rig-baseline_ce-s7
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s42
+    run_dir: artifacts/models/runs/rig-baseline_frozen_lr-s42
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s123
+    run_dir: artifacts/models/runs/rig-baseline_frozen_lr-s123
+  - config: experiments/rigorous_baseline_frozen_lr.yaml
+    run_id: rig-baseline_frozen_lr-s7
+    run_dir: artifacts/models/runs/rig-baseline_frozen_lr-s7
+  - config: models/van_v2.yaml
+    run_id: released-van-v2
+    run_dir: artifacts/models/runs/released-van-v2
+eval:
+  dataset: processed/stereoset/f1_test_leakfree.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+  eval_out_dir: results/metrics/eval_reports_unified
+out: results/metrics/unified_compare.json

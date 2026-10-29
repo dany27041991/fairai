@@ -51,7 +51,12 @@ def run_ppo_smoke(
     paths = artifacts or ArtifactPaths.from_env()
     splits = load_mc_file(dataset_path)
     examples = (splits.get("train") or []) + (splits.get("validation") or [])
-    env = StereoSetMCEnv(examples, seed=seed)
+    env = StereoSetMCEnv(
+        examples,
+        seed=seed,
+        reward_mode="thesis_relative",
+        require_neutral_pred=True,
+    )
 
     # Prefer gymnasium registration check (optional dependency)
     try:
@@ -90,9 +95,10 @@ def run_ppo_smoke(
             "steps": steps,
             "mean_reward": mean_r,
             "dataset": str(dataset_path),
+            "reward_mode": "thesis_relative",
             "note": (
-                "Smoke only — not historical PPO parity. Full Qwen2.5-1.5B PPO needs GPU "
-                "and is documented in docs/LLM.md."
+                "Env reward/filter match Thesis StereosetEnv; policy is REINFORCE MLP smoke "
+                "(not CausalLM CleanRL PPO — GAP-F5). See docs/LLM.md."
             ),
         },
     )

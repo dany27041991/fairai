@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +35,7 @@ def arch_config_from_yaml(data: dict[str, Any]) -> VanArchConfig:
         bias_num_layers=int(arch.get("bias_num_layers", 1)),
         bias_dropout=float(arch.get("bias_dropout", 0.0)),
         bias_lambda=float(arch.get("bias_lambda", 1.0)),
+        use_bias_projection=bool(arch.get("use_bias_projection", True)),
     )
 
 
@@ -67,3 +69,40 @@ def load_van_classifier(
     model.to(device)
     model.eval()
     return model, thresholds_from_yaml(raw), raw
+
+
+@dataclass(slots=True)
+class VanBundle:
+    model: VanClassifier
+    thresholds: dict[str, float]
+    raw: dict[str, Any]
+    tokenizer: Any
+    backbone: str
+    max_len: int
+
+
+def load_van_and_tokenizer(
+    checkpoint_path: Path,
+    config_path: Path,
+    *,
+    device: str | torch.device = "cpu",
+    strict: bool = True,
+    default_max_len: int = 512,
+) -> VanBundle:
+    """Load VAN checkpoint + matching HuggingFace tokenizer (infer/eval/icat/judge)."""
+    from transformers import AutoTokenizer
+
+    model, thresholds, raw = load_van_classifier(
+        checkpoint_path, config_path, device=device, strict=strict
+    )
+    backbone = str(raw.get("backbone", "sentence-transformers/all-MiniLM-L6-v2"))
+    max_len = int(raw.get("max_len", default_max_len))
+    tokenizer = AutoTokenizer.from_pretrained(backbone)
+    return VanBundle(
+        model=model,
+        thresholds=thresholds,
+        raw=raw,
+        tokenizer=tokenizer,
+        backbone=backbone,
+        max_len=max_len,
+    )

@@ -1,0 +1,16 @@
+# Baseline: fine-tuned MiniLM head + plain CE (no BiasProjection / BiasAware)
+name: baseline_ce
+inherits: models/van_v2.yaml
+experiment_kind: van
+architecture:
+  use_bias_projection: false
+loss:
+  kind: ce
+  use_class_weights: false
+  # penalties unused for CE; kept explicit for snapshots
+  penalty_stereo: 1.0
+  penalty_anti: 1.0
+  penalty_neutral: 1.0
+train:
+  weighted_sampler: false
+  # reuse van_v2 dataset / optim / epochs

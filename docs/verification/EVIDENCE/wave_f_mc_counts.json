@@ -1,0 +1,6 @@
+{
+  "dataset": "artifacts/datasets/processed/stereoset/stereoset_select_options_pred.json",
+  "expected": {"train": 1484, "validation": 317, "test": 322},
+  "actual": {"train": 1484, "validation": 317, "test": 322},
+  "pass": true
+}

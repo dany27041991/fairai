@@ -1,0 +1,23 @@
+{
+  "check": "D5",
+  "splits_dir": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset",
+  "intersentence": {
+    "paths": [
+      "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset/intersentence_train.json",
+      "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset/intersentence_test.json"
+    ],
+    "concatenate_context": true,
+    "count": 6369,
+    "expected": 6369
+  },
+  "intrasentence": {
+    "paths": [
+      "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset/intrasentence_train.json",
+      "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset/intrasentence_test.json"
+    ],
+    "concatenate_context": false,
+    "count": 6318,
+    "expected": 6318
+  },
+  "pass": true
+}

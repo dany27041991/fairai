@@ -9,12 +9,16 @@ from typing import Any
 from fairai.application.config_merge import load_experiment_config
 from fairai.domain.example import Example
 from fairai.infrastructure.artifact_paths import ArtifactPaths
+from fairai.infrastructure.data.jsonl_repo import load_examples
 from fairai.infrastructure.generation.crows import iter_crows_examples
-from fairai.infrastructure.generation.jsonl_io import load_examples_jsonl, write_examples
+from fairai.infrastructure.generation.jsonl_io import write_examples
 from fairai.infrastructure.generation.leakage import filter_leakage, stereoset_forbidden_sentences
 from fairai.infrastructure.generation.merge import dedupe_examples, merge_examples, sample_balanced
 from fairai.infrastructure.generation.schema import validate_examples
+from fairai.infrastructure.generation.sources_jsonl import load_named_source
 from fairai.infrastructure.torch_van.checkpointing import write_json
+
+_JSONL_SOURCES = ("winobias", "toxigen", "squad", "tatoeba", "stereoset")
 
 
 @dataclass(slots=True)
@@ -25,6 +29,7 @@ class GenerateResult:
     n_schema_issues: int
     sources_used: list[str]
     note: str
+    n_removed_cola: int = 0
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -34,8 +39,31 @@ def _load_extra_jsonl(paths: list[Path], *, max_per_file: int | None) -> list[Ex
     out: list[Example] = []
     for path in paths:
         if path.is_file():
-            out.extend(load_examples_jsonl(path, max_samples=max_per_file))
+            out.extend(load_examples(path, max_samples=max_per_file))
     return out
+
+
+def _thesis_source_roots(
+    thesis_root: str | None,
+    config_path: Path,
+    artifacts: ArtifactPaths,
+) -> list[Path]:
+    roots: list[Path] = []
+    if thesis_root:
+        raw = Path(thesis_root).expanduser()
+        if raw.is_absolute():
+            roots.append(raw)
+        else:
+            cfg_abs = config_path.resolve()
+            fairai_root = cfg_abs.parents[2] if len(cfg_abs.parents) >= 2 else Path.cwd()
+            for base in (Path.cwd(), cfg_abs.parent, fairai_root):
+                cand = (base / raw).resolve()
+                if cand.is_dir() and cand not in roots:
+                    roots.append(cand)
+            if not roots:
+                roots.append((Path.cwd() / raw).resolve())
+    roots.append(artifacts.raw())
+    return roots
 
 
 def generate_dataset(
@@ -86,6 +114,30 @@ def generate_dataset(
         )
         used.append("crows")
 
+    # Thesis DEVELOP/datasets (or mirrored under artifacts/datasets/raw)
+    source_roots = _thesis_source_roots(gen_cfg.get("thesis_datasets_root"), config_path, paths)
+    per_source_cap = gen_cfg.get("max_per_source", max_n_i)
+    per_source_i = int(per_source_cap) if per_source_cap is not None else None
+
+    for name in _JSONL_SOURCES:
+        if name not in source_list:
+            continue
+        loaded: list = []
+        for root in source_roots:
+            if not root.is_dir():
+                continue
+            loaded = load_named_source(root, name, max_samples=per_source_i)
+            if loaded:
+                break
+        if loaded:
+            groups.append(loaded)
+            used.append(name)
+        else:
+            raise FileNotFoundError(
+                f"Source '{name}' not found under {source_roots}; "
+                "set generate.thesis_datasets_root to TESI .../DEVELOP/datasets"
+            )
+
     extra_globs = gen_cfg.get("extra_jsonl") or []
     if "jsonl" in source_list or extra_globs:
         extras: list[Path] = []
@@ -111,6 +163,22 @@ def generate_dataset(
         forbidden = stereoset_forbidden_sentences(splits)
         merged, removed = filter_leakage(merged, forbidden)
 
+    if bool(gen_cfg.get("filter_cola", False)) and merged:
+        from fairai.infrastructure.generation.cola import filter_cola_sentences
+
+        ok = set(
+            filter_cola_sentences(
+                [ex.sentence for ex in merged],
+                model_name=str(gen_cfg.get("cola_model", "textattack/bert-base-uncased-CoLA")),
+                device=int(gen_cfg.get("cola_device", -1)),
+            )
+        )
+        before = len(merged)
+        merged = [ex for ex in merged if ex.sentence in ok]
+        meta_cola_dropped = before - len(merged)
+    else:
+        meta_cola_dropped = 0
+
     if max_n_i is not None and len(merged) > max_n_i:
         merged = sample_balanced(merged, max_samples=max_n_i, seed=int(gen_cfg.get("seed", 42)))
 
@@ -131,6 +199,7 @@ def generate_dataset(
         "out": str(out_path),
         "n": n,
         "removed_leakage": removed,
+        "removed_cola": meta_cola_dropped,
         "schema_issues": len(issues),
         "sources": used,
         "canonical_note": (
@@ -147,4 +216,5 @@ def generate_dataset(
         n_schema_issues=len(issues),
         sources_used=used,
         note=meta["canonical_note"],
+        n_removed_cola=meta_cola_dropped,
     )

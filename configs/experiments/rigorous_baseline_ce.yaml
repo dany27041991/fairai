@@ -1,0 +1,13 @@
+name: rigorous_baseline_ce
+inherits: experiments/rigorous_base.yaml
+experiment_kind: van
+architecture:
+  use_bias_projection: false
+loss:
+  kind: ce
+  use_class_weights: false
+  penalty_stereo: 1.0
+  penalty_anti: 1.0
+  penalty_neutral: 1.0
+train:
+  weighted_sampler: false

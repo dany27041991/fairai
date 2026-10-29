@@ -1,0 +1,23 @@
+{
+  "gen_dropout": 0.11338094928787763,
+  "gen_dropout_reg": 0.6261766176354664,
+  "att_dropout": 0.06431044590601556,
+  "gen_num_layers": 5,
+  "gen_hidden_size": 512,
+  "multihead_num_heads": 4,
+  "learning_rate": 2.629238954157595e-05,
+  "weight_decay": 0.004414023241551064,
+  "warmup_pct": 0.0279580399908541,
+  "clip_grad": 1.7787644137910001,
+  "scheduler": "cosine",
+  "label_smoothing": 0.08919082517618623,
+  "alpha": 0.5951649127957641,
+  "gamma": 0.6747057230477337,
+  "use_bias_projection": false,
+  "penalty_stereo": 3.8267527383202538,
+  "penalty_anti": 4.0136428619896005,
+  "penalty_neutral": 1.60886349981871,
+  "loss_kind": "bias_aware",
+  "use_class_weights": true,
+  "weighted_sampler": true
+}

@@ -7,6 +7,8 @@ from pathlib import Path
 import typer
 
 from fairai import __version__
+from fairai.cli.analyze_cmd import analyze_app
+from fairai.cli.experiment_cmd import experiment_app
 from fairai.cli.icat_cmd import icat_app
 from fairai.cli.llm_cmd import llm_app
 
@@ -18,6 +20,8 @@ app = typer.Typer(
 )
 app.add_typer(icat_app, name="icat")
 app.add_typer(llm_app, name="llm")
+app.add_typer(analyze_app, name="analyze")
+app.add_typer(experiment_app, name="experiment")
 
 
 def _print_version(value: bool) -> None:
@@ -140,11 +144,16 @@ def eval_cmd(
     device: str = typer.Option("cpu", "--device"),
     gates: bool = typer.Option(False, "--gates", help="Apply threshold gates."),
     out: Path | None = typer.Option(None, "--out", help="Write JSON report."),
+    plot_dir: Path | None = typer.Option(
+        None,
+        "--plot-dir",
+        help="Write Thesis-style confusion matrix PNG (requires fairai[viz]).",
+    ),
 ) -> None:
     """Classification eval on a labeled JSONL with VAN checkpoint."""
-    import json
-
     from fairai.application.evaluate_classification import evaluate_classification
+    from fairai.cli.json_io import write_and_echo
+    from fairai.domain.labels import Label
 
     report = evaluate_classification(
         checkpoint_path=checkpoint,
@@ -156,18 +165,29 @@ def eval_cmd(
         apply_threshold_gates=gates,
     )
     payload = report.to_dict()
-    typer.echo(json.dumps(payload, indent=2))
+    write_and_echo(payload, out=out)
     if out is not None:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         typer.echo(f"wrote {out}")
+    if plot_dir is not None:
+        from fairai.infrastructure.viz.confusion import plot_confusion_matrix
+
+        plot_dir.mkdir(parents=True, exist_ok=True)
+        path = plot_confusion_matrix(
+            report.confusion_matrix,
+            class_names=[Label(i).display_name for i in range(3)],
+            title=f"Confusion Matrix - {dataset.name}",
+            out_path=plot_dir / "confusion_matrix.png",
+        )
+        typer.echo(f"wrote {path}")
 
 
 @app.command("generate")
 def generate_cmd(
     config: Path = typer.Option(Path("configs/data/generate.yaml"), "--config", "-c"),
     sources: str | None = typer.Option(
-        None, "--sources", help="Comma list: crows,jsonl (default from YAML)."
+        None,
+        "--sources",
+        help="Comma list: crows,winobias,toxigen,squad,tatoeba,stereoset,jsonl.",
     ),
     max_samples: int | None = typer.Option(None, "--max-samples"),
     synonyms: bool = typer.Option(False, "--synonyms", help="Enable WordNet expansion."),
@@ -175,9 +195,8 @@ def generate_cmd(
     artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
 ) -> None:
     """Regenerate a schema-valid JSONL subset (does not overwrite canonical processed/)."""
-    import json
-
     from fairai.application.generate_dataset import generate_dataset
+    from fairai.cli.json_io import echo_json
     from fairai.infrastructure.artifact_paths import ArtifactPaths
 
     source_list = [s.strip() for s in sources.split(",") if s.strip()] if sources else None
@@ -189,7 +208,7 @@ def generate_cmd(
         expand_synonyms=synonyms or None,
         out_name=out,
     )
-    typer.echo(json.dumps(result.to_dict(), indent=2))
+    echo_json(result.to_dict())
     if result.n_schema_issues:
         typer.secho(f"schema issues dropped: {result.n_schema_issues}", fg=typer.colors.YELLOW)
 
@@ -210,9 +229,8 @@ def train_cmd(
     artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
 ) -> None:
     """Train VAN; writes checkpoint + metrics under artifacts/models/runs/."""
-    import json
-
     from fairai.application.train_van import train_van
+    from fairai.cli.json_io import echo_json
     from fairai.infrastructure.artifact_paths import ArtifactPaths
 
     result = train_van(
@@ -222,7 +240,7 @@ def train_cmd(
         max_samples=max_samples,
         run_id=run_id,
     )
-    typer.echo(json.dumps(result.to_dict(), indent=2))
+    echo_json(result.to_dict())
 
 
 @app.command("smoke")
@@ -275,11 +293,17 @@ def infer_cmd(
     config: Path = typer.Option(Path("configs/models/van_v2.yaml"), "--config", "-c"),
     device: str = typer.Option("cpu", "--device"),
     gates: bool = typer.Option(False, "--gates"),
+    mc_samples: int = typer.Option(
+        0,
+        "--mc-samples",
+        help="Thesis PROMPT TEST: MC dropout samples (0=single-pass).",
+    ),
 ) -> None:
-    """Infer stereotype labels for texts."""
-    import json
+    """Infer stereotype labels for texts (Thesis PROMPT TEST VAN)."""
+    from dataclasses import asdict
 
     from fairai.application.infer_texts import infer_texts
+    from fairai.cli.json_io import echo_json
 
     texts: list[str] = list(text or [])
     if file is not None:
@@ -291,16 +315,16 @@ def infer_cmd(
     if not texts:
         typer.secho("Provide --text and/or --file", fg=typer.colors.RED)
         raise typer.Exit(1)
-    from dataclasses import asdict
 
     items = infer_texts(
         texts,
         checkpoint_path=checkpoint,
         config_path=config,
         device=device,
-        apply_threshold_gates=gates,
+        apply_threshold_gates=gates or mc_samples > 0,
+        mc_samples=mc_samples,
     )
-    typer.echo(json.dumps([asdict(item) for item in items], indent=2, ensure_ascii=False))
+    echo_json([asdict(item) for item in items], ensure_ascii=False)
 
 
 if __name__ == "__main__":

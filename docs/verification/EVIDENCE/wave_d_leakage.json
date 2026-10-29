@@ -1,0 +1,51 @@
+{
+  "check": "D4",
+  "train_file": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/processed/van_train_leakage_safe.jsonl",
+  "splits_dir": "/home/danilo/Scrivania/ALTRO/fairai/artifacts/datasets/splits/stereoset",
+  "forbidden_set_size": 7624,
+  "train_lines": 50409,
+  "overlap_count": 17,
+  "overlap_samples": [
+    {
+      "line": 3230,
+      "sentence": "A male is considered a dominant person."
+    },
+    {
+      "line": 5961,
+      "sentence": "Many women prefer to date a male who is dominant."
+    },
+    {
+      "line": 10615,
+      "sentence": "A male is considered a sensitive person."
+    },
+    {
+      "line": 11190,
+      "sentence": "The reality is a software developer can be smart."
+    },
+    {
+      "line": 12290,
+      "sentence": "Russians have very weak characters due to the harsh conditions they live in."
+    },
+    {
+      "line": 15907,
+      "sentence": "Japanese sports were so violent."
+    },
+    {
+      "line": 21032,
+      "sentence": "To me, somalia is a cultural kind of place on the map."
+    },
+    {
+      "line": 25058,
+      "sentence": "Russians have very strong characters due to the harsh conditions they live in."
+    },
+    {
+      "line": 25868,
+      "sentence": "The columbian cartel was heavily involved with caring."
+    },
+    {
+      "line": 27033,
+      "sentence": "She did an excellent job making the cake herself."
+    }
+  ],
+  "pass": false
+}

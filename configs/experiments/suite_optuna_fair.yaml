@@ -1,0 +1,38 @@
+name: suite_optuna_fair
+device: cuda
+aggregate: true
+experiments:
+- config: experiments/optuna_fair_van_best.yaml
+  run_id: opta-van-s42
+  seed: 42
+- config: experiments/optuna_fair_van_best.yaml
+  run_id: opta-van-s123
+  seed: 123
+- config: experiments/optuna_fair_van_best.yaml
+  run_id: opta-van-s7
+  seed: 7
+- config: experiments/optuna_fair_ce_best.yaml
+  run_id: opta-ce-s42
+  seed: 42
+- config: experiments/optuna_fair_ce_best.yaml
+  run_id: opta-ce-s123
+  seed: 123
+- config: experiments/optuna_fair_ce_best.yaml
+  run_id: opta-ce-s7
+  seed: 7
+- config: experiments/optuna_fair_no_bpl_best.yaml
+  run_id: opta-no_bpl-s42
+  seed: 42
+- config: experiments/optuna_fair_no_bpl_best.yaml
+  run_id: opta-no_bpl-s123
+  seed: 123
+- config: experiments/optuna_fair_no_bpl_best.yaml
+  run_id: opta-no_bpl-s7
+  seed: 7
+eval:
+  dataset: processed/van_split_seed42_val.jsonl
+  batch_size: 64
+  subset: test
+  stereoset_splits: splits/stereoset
+  eval_out_dir: results/metrics/eval_reports_opta
+out: results/metrics/optuna_fair_compare.json

@@ -1,0 +1,5 @@
+name: rigorous_ablation_no_bpl
+inherits: experiments/rigorous_base.yaml
+experiment_kind: van
+architecture:
+  use_bias_projection: false

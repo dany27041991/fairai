@@ -1,0 +1,15 @@
+# Shared protocol: fixed leakage-safe split + WHM(F1,iCAT) model selection.
+# iCAT in early-stop uses StereoSet *train* only (held-out test reserved for eval).
+name: rigorous_base
+inherits: models/van_v2.yaml
+device: cuda
+train:
+  dataset_train: processed/van_split_seed42_train.jsonl
+  dataset_val: processed/van_split_seed42_val.jsonl
+  selection_metric: combined
+  f1_weight: 1.88
+  icat_every: 2
+  icat_subset: train
+  stereoset_splits: splits/stereoset
+  # keep van_v2 optim/epochs/patience/amp/batch
+  seed: 42

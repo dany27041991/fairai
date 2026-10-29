@@ -27,9 +27,8 @@ def few_shot_cmd(
     artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
 ) -> None:
     """StereoSet MC few-shot smoke using frozen VAN as option judge."""
-    import json
-
     from fairai.application.few_shot_mc import run_few_shot_mc
+    from fairai.cli.json_io import echo_json
     from fairai.infrastructure.artifact_paths import ArtifactPaths
 
     result = run_few_shot_mc(
@@ -45,7 +44,7 @@ def few_shot_cmd(
     payload = result.to_dict()
     # keep chat readable — truncate prompt in stdout
     prompt = payload.pop("sample_prompt", "")
-    typer.echo(json.dumps(payload, indent=2))
+    echo_json(payload)
     typer.echo("--- sample prompt (trunc) ---")
     typer.echo(prompt[:800])
 
@@ -62,9 +61,8 @@ def ppo_smoke_cmd(
     artifacts: Path = typer.Option(Path("artifacts"), "--artifacts", "-a"),
 ) -> None:
     """REINFORCE smoke on MC env (not full Qwen PPO)."""
-    import json
-
     from fairai.application.ppo_smoke import run_ppo_smoke
+    from fairai.cli.json_io import echo_json
     from fairai.infrastructure.artifact_paths import ArtifactPaths
 
     result = run_ppo_smoke(
@@ -73,4 +71,4 @@ def ppo_smoke_cmd(
         seed=seed,
         artifacts=ArtifactPaths.from_env(root=artifacts),
     )
-    typer.echo(json.dumps(result.to_dict(), indent=2))
+    echo_json(result.to_dict())

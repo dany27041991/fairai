@@ -1,0 +1,22 @@
+name: baseline_ce_smoke
+inherits: experiments/baseline_ce.yaml
+device: cpu
+architecture:
+  gen_num_layers: 2
+  gen_hidden_size: 512
+  gen_dropout: 0.1
+  gen_dropout_reg: 0.3
+  multihead_num_heads: 4
+  att_dropout: 0.1
+  bias_dim: 256
+  use_bias_projection: false
+train:
+  dataset: processed/van_minimal_24k.jsonl
+  max_samples: 256
+  epochs: 1
+  batch_size: 8
+  grad_accum_steps: 1
+  patience: 2
+  amp: false
+  seed: 42
+  weighted_sampler: false

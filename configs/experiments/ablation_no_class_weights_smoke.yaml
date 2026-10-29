@@ -1,0 +1,9 @@
+name: ablation_no_class_weights_smoke
+inherits: experiments/smoke_cpu.yaml
+loss:
+  use_class_weights: false
+  penalty_stereo: 1.0
+  penalty_anti: 1.0
+  penalty_neutral: 1.0
+train:
+  weighted_sampler: false

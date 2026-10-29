@@ -28,9 +28,12 @@ def load_experiment_config(path: Path, *, configs_root: Path | None = None) -> d
         return data
     root = configs_root
     if root is None:
-        # experiments/smoke_cpu.yaml → configs/
-        nested = path.parent.name in {"experiments", "models", "data"}
-        root = path.parent.parent if nested else path.parent
+        # configs/experiments[/rigorous]/x.yaml → configs/
+        root = path.parent
+        for parent in [path.parent, *path.parents]:
+            if (parent / "models").is_dir() and (parent / "experiments").is_dir():
+                root = parent
+                break
     parent_path = (root / str(inherits)).resolve()
     parent = load_yaml(parent_path)
     # parent may itself inherit

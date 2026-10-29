@@ -33,7 +33,10 @@ def adaptive_clip_grad(
 def build_optimizer(model: torch.nn.Module, optim_cfg: dict[str, Any]) -> AdamW:
     lr = float(optim_cfg.get("learning_rate", 1e-5))
     weight_decay = float(optim_cfg.get("weight_decay", 0.01))
-    return AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+    params = [p for p in model.parameters() if p.requires_grad]
+    if not params:
+        raise ValueError("No trainable parameters for optimizer")
+    return AdamW(params, lr=lr, weight_decay=weight_decay)
 
 
 def build_scheduler(

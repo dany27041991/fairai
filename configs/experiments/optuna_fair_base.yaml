@@ -1,0 +1,10 @@
+# Base for equal-budget Optuna fair compare (WHM on StereoSet-train iCAT).
+# Family overlays (van/ce/no_bpl) are applied by the HPO runner, not this file.
+name: optuna_fair_base
+inherits: experiments/rigorous_base.yaml
+device: cuda
+train:
+  # Trial loop may override epochs/patience via CLI; final train restores these.
+  epochs: 100
+  patience: 5
+  amp: true
